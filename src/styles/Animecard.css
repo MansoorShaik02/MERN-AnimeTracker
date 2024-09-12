@@ -1,0 +1,30 @@
+/* Animecard.css */
+
+.anime-card {
+  list-style-type: none;
+  max-width: 300px;
+  margin: 15px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.anime-card img {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.anime-card h3 {
+  margin: 15px;
+  font-size: 1.5em;
+  color: #333333;
+  text-align: center;
+}
+
+.anime-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
