@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Animecard from '../components/Animecard'; // Import your Animecard component
-import 'D:/reactproectsreal/AnimeList/src/styles/CurrentlyAiring.css' // Adjust the path if needed
+import 'D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/CurrentlyAiring.css' // Adjust the path if needed
 // Optional: Create this file for styling
 import { Link } from 'react-router-dom';
 

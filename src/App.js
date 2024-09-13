@@ -11,6 +11,7 @@ import CharacterDetails from './pages/CharacterDetails';
 import Genrepage from './pages/Genrepage';
 import Register from './components/Register';
 import Login from './components/Login';
+import UserLists from './pages/UserLists';
 import { AuthProvider } from './context/AuthContext';
 function App() {
 
@@ -34,7 +35,7 @@ function App() {
             <Route path="register" element={<Register />}></Route>
 
 
-
+            <Route path="/userlists" element={<UserLists />} />
           </Routes>
         </div>
       </Router>

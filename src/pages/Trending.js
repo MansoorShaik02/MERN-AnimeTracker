@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import LazyLoad from 'react-lazyload';
-import 'D:/reactproectsreal/AnimeList/src/styles/Trending.css'; // Adjust the path if needed
+import 'D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/Trending.css'; // Adjust the path if needed
 import { Link } from 'react-router-dom';
 
 const Trending = () => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import "D:/reactproectsreal/animelist/src/styles/Animecard.css"
+import "D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/Animecard.css"
 const Animecard = (props) => {
     return (
         <li className="anime-card" key={props.id}>

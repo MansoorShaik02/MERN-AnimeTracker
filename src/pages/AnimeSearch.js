@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import 'D:/reactproectsreal/AnimeList/src/styles/AnimeSearch.css' // Adjust the path if needed
+import 'D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/AnimeSearch.css' // Adjust the path if needed
 import Animecard from '../components/Animecard';
 import { Link } from 'react-router-dom';
 const AnimeSearch = () => {

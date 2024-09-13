@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import "D:/reactproectsreal/animelist/src/styles/CharacterList.css"
+import "D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/CharacterList.css"
 // Import the CSS file
 import { Link } from 'react-router-dom'
 

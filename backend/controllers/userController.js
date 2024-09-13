@@ -64,14 +64,11 @@ const loginUser = async (req, res) => {
         res.status(500).send('Server error');
     }
 };
-
-// Add anime to watchlist
 const addToWatchlist = async (req, res) => {
     const { mal_id, title, image_url } = req.body;
-    console.log(req.body)
 
     try {
-        const user = await User.findById(req.user.id);
+        const user = await User.findById(req.user.id).populate('watchlist');
         let anime = await Anime.findOne({ mal_id });
 
         if (!anime) {
@@ -79,8 +76,10 @@ const addToWatchlist = async (req, res) => {
             await anime.save();
         }
 
-        user.watchlist.push(anime);
-        await user.save();
+        if (!user.watchlist.some(animeItem => animeItem._id.equals(anime._id))) {
+            user.watchlist.push(anime);
+            await user.save();
+        }
 
         res.json(user.watchlist);
     } catch (err) {
@@ -89,12 +88,13 @@ const addToWatchlist = async (req, res) => {
     }
 };
 
+
 // Add anime to watched list
 const addToWatchedlist = async (req, res) => {
     const { mal_id, title, image_url } = req.body;
 
     try {
-        const user = await User.findById(req.user.id);
+        const user = await User.findById(req.user.id).populate('watchedlist');
         let anime = await Anime.findOne({ mal_id });
 
         if (!anime) {
@@ -102,8 +102,10 @@ const addToWatchedlist = async (req, res) => {
             await anime.save();
         }
 
-        user.watchedlist.push(anime);
-        await user.save();
+        if (!user.watchedlist.some(animeItem => animeItem._id.equals(anime._id))) {
+            user.watchedlist.push(anime);
+            await user.save();
+        }
 
         res.json(user.watchedlist);
     } catch (err) {
@@ -111,7 +113,6 @@ const addToWatchedlist = async (req, res) => {
         res.status(500).send('Server error');
     }
 };
-
 // Fetch user's watchlist and watched list
 const getUserLists = async (req, res) => {
     try {
