@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
-
+import { Link } from 'react-router-dom';
+import LazyLoad from 'react-lazyload';
 const UserLists = () => {
     const { isAuthenticated } = useAuth();
     const [watchlist, setWatchlist] = useState([]);
@@ -42,22 +43,32 @@ const UserLists = () => {
         <div>
             <h2>My Watchlist</h2>
             <ul>
-                {watchlist.map(anime => (
-                    <li key={anime._id}>
-                        <img src={anime.image_url} alt={anime.title} />
-                        <p>{anime.title}</p>
-                    </li>
+                {watchlist.map((anime) => (
+                    <Link to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
+                        <li>
+                            <h3>{anime.title}</h3>
+                            <LazyLoad height={200} offset={100} once>
+                                <img src={anime.image_url} alt={anime.title} />
+                            </LazyLoad>
+                        </li>
+                    </Link>
                 ))}
             </ul>
 
             <h2>My Watched List</h2>
             <ul>
-                {watchedlist.map(anime => (
-                    <li key={anime._id}>
-                        <img src={anime.image_url} alt={anime.title} />
-                        <p>{anime.title}</p>
-                    </li>
-                ))}
+                {watchedlist.map(
+                    (anime) => (
+                        <Link to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
+                            <li>
+                                <h3>{anime.title}</h3>
+                                <LazyLoad height={200} offset={100} once>
+                                    <img src={anime.image_url} alt={anime.title} />
+                                </LazyLoad>
+                            </li>
+                        </Link>
+                    )
+                )}
             </ul>
         </div>
     );
