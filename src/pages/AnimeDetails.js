@@ -12,7 +12,7 @@ const AnimeDetails = () => {
     const { id } = useParams();
     const [animeDetails, setAnimeDetails] = useState(null);
     const [message, setMessage] = useState('');
-
+    //apple
     useEffect(() => {
         const fetchAnimeDetails = async () => {
             try {

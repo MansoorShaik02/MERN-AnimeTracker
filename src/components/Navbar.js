@@ -21,7 +21,9 @@ const Navbar = () => {
                 <li>
                     <NavLink to='/currentlyAiring' activeClassName="active">Currently Airing</NavLink>
                 </li>
-
+                <li>
+                    <NavLink to='/profile' activeClassName="active">Profile</NavLink>
+                </li>
                 {isAuthenticated ? (
                     <>
                         <li>

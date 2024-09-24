@@ -13,6 +13,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import UserLists from './pages/UserLists';
 import { AuthProvider } from './context/AuthContext';
+import Profilepage from './pages/Profilepage';
 function App() {
 
 
@@ -33,7 +34,7 @@ function App() {
             <Route path="/character/:id" element={<CharacterDetails />} />
             <Route path="/genre/:genreId" element={<Genrepage />} />
             <Route path="register" element={<Register />}></Route>
-
+            <Route path="profile" element={<Profilepage />}></Route>
 
             <Route path="/userlists" element={<UserLists />} />
           </Routes>
