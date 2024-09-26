@@ -9,15 +9,17 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Check if user is authenticated when the app loads
         const checkAuth = async () => {
-            try {
-                await axios.get('http://localhost:5000/api/users/userlists', {
-                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-                });
-                setIsAuthenticated(true);
-            } catch (err) {
-                setIsAuthenticated(false);
+            const token = localStorage.getItem('token');
+            if (token) {
+                try {
+                    await axios.get('http://localhost:5000/api/users/userlists', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    setIsAuthenticated(true);
+                } catch (err) {
+                    setIsAuthenticated(false);
+                }
             }
             setLoading(false);
         };

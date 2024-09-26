@@ -41,7 +41,7 @@ const Homepage = () => {
 
     return (
         <div className="homepage">
-            {!isAuthenticated ? (
+            {/* {!isAuthenticated ? (
                 <Login onLogin={handleLogin} />
             ) : (
                 <p>You are logged in!</p>
@@ -55,7 +55,7 @@ const Homepage = () => {
             )}
 
             <p>Register</p>
-            <Register />
+            <Register /> */}
 
             {/* Hero Section */}
             <section className="hero">

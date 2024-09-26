@@ -24,7 +24,7 @@ const Navbar = () => {
                 <li>
                     <NavLink to='/profile' activeClassName="active">Profile</NavLink>
                 </li>
-                {isAuthenticated ? (
+                {/* {isAuthenticated ? (
                     <>
                         <li>
                             <NavLink to='/userlists'> My lists</NavLink>
@@ -35,7 +35,7 @@ const Navbar = () => {
                 ) : (
                     <NavLink exact to="/" activeClassName="active">Home</NavLink>
                 )
-                }
+                } */}
 
             </ul>
         </nav>

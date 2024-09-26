@@ -1,10 +1,10 @@
+// src/components/AnimeDetails.js
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import SimilarAnime from '../components/SimilarAnime';
 import CharacterList from '../components/CharacterList';
 import AnimeTrailer from '../components/AnimeTrailer';
-
 import { useAuth } from '../context/AuthContext';
 
 const AnimeDetails = () => {
@@ -12,7 +12,7 @@ const AnimeDetails = () => {
     const { id } = useParams();
     const [animeDetails, setAnimeDetails] = useState(null);
     const [message, setMessage] = useState('');
-    //apple
+
     useEffect(() => {
         const fetchAnimeDetails = async () => {
             try {
@@ -22,12 +22,10 @@ const AnimeDetails = () => {
                 console.error('Error fetching anime details:', error);
             }
         };
-
         fetchAnimeDetails();
     }, [id]);
 
     const handleAddToWatchlist = async () => {
-
         if (!isAuthenticated) {
             alert('You must be logged in to add to watchlist');
             return;
@@ -59,9 +57,12 @@ const AnimeDetails = () => {
     };
 
     const handleAddToWatchedlist = async () => {
+        if (!isAuthenticated) {
+            alert('You must be logged in to add to watched list');
+            return;
+        }
         try {
             const token = localStorage.getItem('token');
-            console.log(token, 'this is toekn ra')
             if (!token) {
                 setMessage('Please log in first.');
                 return;
