@@ -117,7 +117,7 @@ const addToWatchedlist = async (req, res) => {
 const getUserLists = async (req, res) => {
     try {
         const user = await User.findById(req.user.id).populate('watchlist watchedlist');
-        res.json({ watchlist: user.watchlist, watchedlist: user.watchedlist });
+        res.json({ watchlist: user.watchlist, watchedlist: user.watchedlist, username: user.username, email: user.email });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');

@@ -4,10 +4,14 @@ import './HomePage.css'; // Ensure you create and link the CSS file
 import GenreCollection from '../components/GenreCollection';
 import Login from '../components/Login';
 import Register from '../components/Register';
+import axios from 'axios';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import carousel styles
+import { Carousel } from 'react-responsive-carousel';
 
 const Homepage = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [logoutMessage, setLogoutMessage] = useState(''); // State to control the logout message
+    const [popularAnime, setPopularAnime] = useState([]);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -18,6 +22,17 @@ const Homepage = () => {
         } else {
             console.log('No JWT token found in localStorage');
         }
+
+        const fetchPopularAnime = async () => {
+            try {
+                const response = await axios.get('https://api.jikan.moe/v4/top/anime');
+                setPopularAnime(response.data.data.slice(0, 10)); // Get top 10 popular animes
+            } catch (error) {
+                console.error('Error fetching popular anime:', error);
+            }
+        };
+
+        fetchPopularAnime();
     }, []);
 
     const handleLogin = (status) => {
@@ -41,21 +56,7 @@ const Homepage = () => {
 
     return (
         <div className="homepage">
-            {/* {!isAuthenticated ? (
-                <Login onLogin={handleLogin} />
-            ) : (
-                <p>You are logged in!</p>
-            )}
-            <button onClick={handleLogout}>Logout</button>
 
-            {logoutMessage && (
-                <div className="logout-message">
-                    <p>{logoutMessage}</p>
-                </div>
-            )}
-
-            <p>Register</p>
-            <Register /> */}
 
             {/* Hero Section */}
             <section className="hero">
@@ -66,6 +67,24 @@ const Homepage = () => {
                 </div>
             </section>
 
+            {/* Carousel for Popular Anime */}
+
+            <section className="carousel-section">
+                <h2>Popular Anime</h2>
+                <Carousel showThumbs={false} autoPlay infiniteLoop>
+                    {popularAnime.map((anime) => (
+                        <div key={anime.mal_id} className="slide">
+                            <Link to={`/anime/${anime.mal_id}`}>
+                                <img src={anime.images.jpg.image_url} alt={anime.title} />
+                                <div className="legend">
+                                    <h3>{anime.title}</h3>
+                                    <p>{anime.synopsis}</p>
+                                </div>
+                            </Link>
+                        </div>
+                    ))}
+                </Carousel>
+            </section>
             {/* Featured Sections */}
             <section className="featured-sections">
                 <div className="featured-section">
@@ -82,7 +101,7 @@ const Homepage = () => {
                 </div>
             </section>
 
-            <GenreCollection />
+            {/* <GenreCollection /> */}
 
             {/* Footer */}
             <footer className="footer">
