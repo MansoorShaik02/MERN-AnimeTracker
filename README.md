@@ -1,3 +1,28 @@
+# This is my project to replice My Anime List website
+
+# Anime World
+
+Welcome to Anime World, your one-stop destination for discovering the best anime! This React application allows users to explore top anime, currently airing anime, and trending anime. Users can search for anime, view details, and enjoy a seamless browsing experience.
+
+## Features
+
+- Display top 10 popular anime with images, titles, and ratings.
+- Explore currently airing and trending anime.
+- Search for anime using a search bar.
+- Responsive design for an optimal viewing experience on any device.
+- User authentication (login/logout).
+- Persistent login state across pages.
+- Ability to let user add animes to Watch list and Watched list
+
+## Technologies Used
+
+- React
+- Axios
+- React Router DOM
+- Jikan API (MyAnimeList API)
+- CSS
+- MongoDB Compass
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
