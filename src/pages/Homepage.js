@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './HomePage.css'; // Ensure you create and link the CSS file
-import GenreCollection from '../components/GenreCollection';
-import Login from '../components/Login';
-import Register from '../components/Register';
 import axios from 'axios';
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import carousel styles
-import { Carousel } from 'react-responsive-carousel';
+import './HomePage.css'; // Ensure you create and link the CSS file
 
 const Homepage = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [logoutMessage, setLogoutMessage] = useState(''); // State to control the logout message
+    const [logoutMessage, setLogoutMessage] = useState('');
     const [popularAnime, setPopularAnime] = useState([]);
+    const [upcoming, setUpcoming] = useState([])
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -26,6 +22,7 @@ const Homepage = () => {
         const fetchPopularAnime = async () => {
             try {
                 const response = await axios.get('https://api.jikan.moe/v4/top/anime');
+
                 setPopularAnime(response.data.data.slice(0, 10)); // Get top 10 popular animes
             } catch (error) {
                 console.error('Error fetching popular anime:', error);
@@ -33,18 +30,30 @@ const Homepage = () => {
         };
 
         fetchPopularAnime();
+
+        const fetchupcomingAnime = async () => {
+            try {
+
+                const upcoming = await axios.get('https://api.jikan.moe/v4/seasons/upcoming')
+                setUpcoming(upcoming.data.data.slice(0, 10)); // Get top 10 popular animes
+            } catch (error) {
+                console.error('Error fetching popular anime:', error);
+            }
+        };
+
+        fetchupcomingAnime();
     }, []);
 
     const handleLogin = (status) => {
         setIsAuthenticated(status);
-        setLogoutMessage(''); // Clear logout message when logged in
+        setLogoutMessage('');
     };
 
     const handleLogout = () => {
         const token = localStorage.getItem('token');
 
         if (token) {
-            localStorage.removeItem('token'); // Remove token from localStorage
+            localStorage.removeItem('token');
             setIsAuthenticated(false);
             setLogoutMessage('You have been logged out successfully.');
             console.log("logged out");
@@ -56,8 +65,6 @@ const Homepage = () => {
 
     return (
         <div className="homepage">
-
-
             {/* Hero Section */}
             <section className="hero">
                 <div className="hero-content">
@@ -67,24 +74,40 @@ const Homepage = () => {
                 </div>
             </section>
 
-            {/* Carousel for Popular Anime */}
+            {/* Top 10 Popular Anime List */}
+            <section className="popular-anime-list">
+                <h2>Popular Anime Right Now</h2>
+                <div className="anime-list">
+                    {popularAnime.map(anime => (
+                        <Link style={{ textDecoration: 'none' }} to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
 
-            <section className="carousel-section">
-                <h2>Popular Anime</h2>
-                <Carousel showThumbs={false} autoPlay infiniteLoop>
-                    {popularAnime.map((anime) => (
-                        <div key={anime.mal_id} className="slide">
-                            <Link to={`/anime/${anime.mal_id}`}>
-                                <img src={anime.images.jpg.image_url} alt={anime.title} />
-                                <div className="legend">
-                                    <h3>{anime.title}</h3>
-                                    <p>{anime.synopsis}</p>
-                                </div>
-                            </Link>
-                        </div>
+                            <div key={anime.mal_id} className="anime-card">
+                                <img src={anime.images.jpg.image_url} alt={anime.title} className="anime-image" />
+                                <h3>{anime.title}</h3>
+                                <p>Rating: {anime.score}</p>
+                            </div>
+                        </Link>
                     ))}
-                </Carousel>
+                </div>
             </section>
+
+            <section className="popular-anime-list">
+                <h2>Upcoming Anime</h2>
+                <div className="anime-list">
+                    {upcoming.map(anime => (
+                        <Link style={{ textDecoration: 'none' }} to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
+
+                            <div key={anime.mal_id} className="anime-card">
+                                <img src={anime.images.jpg.image_url} alt={anime.title} className="anime-image" />
+                                <h3>{anime.title}</h3>
+
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </section>
+
+
             {/* Featured Sections */}
             <section className="featured-sections">
                 <div className="featured-section">
@@ -95,13 +118,7 @@ const Homepage = () => {
                     <h2>Trending Anime</h2>
                     <Link to="/trending" className="section-link">See What's Hot</Link>
                 </div>
-                <div className="featured-section">
-                    <h2>Popular Anime</h2>
-                    <Link to="/popular" className="section-link">Discover More</Link>
-                </div>
             </section>
-
-            {/* <GenreCollection /> */}
 
             {/* Footer */}
             <footer className="footer">
