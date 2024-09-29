@@ -31,7 +31,7 @@ const registerUser = async (req, res) => {
 
         const payload = { user: { id: user.id } };
 
-        jwt.sign(payload, '60D2DB614461D5182989B338489C82FFA92ECBB3C3FA68D2AE9F5B32DD942541', { expiresIn: '1h' }, (err, token) => {
+        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
             if (err) throw err;
             res.json({ token });
         });
@@ -55,7 +55,7 @@ const loginUser = async (req, res) => {
 
         const payload = { user: { id: user.id } };
 
-        jwt.sign(payload, '60D2DB614461D5182989B338489C82FFA92ECBB3C3FA68D2AE9F5B32DD942541', { expiresIn: '1h' }, (err, token) => {
+        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
             if (err) throw err;
             res.json({ token });
         });
@@ -64,6 +64,7 @@ const loginUser = async (req, res) => {
         res.status(500).send('Server error');
     }
 };
+
 const addToWatchlist = async (req, res) => {
     const { mal_id, title, image_url } = req.body;
 
@@ -87,7 +88,6 @@ const addToWatchlist = async (req, res) => {
         res.status(500).send('Server error');
     }
 };
-
 
 // Add anime to watched list
 const addToWatchedlist = async (req, res) => {
@@ -113,6 +113,7 @@ const addToWatchedlist = async (req, res) => {
         res.status(500).send('Server error');
     }
 };
+
 // Fetch user's watchlist and watched list
 const getUserLists = async (req, res) => {
     try {

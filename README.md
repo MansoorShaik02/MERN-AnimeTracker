@@ -2,7 +2,7 @@
 
 # Anime World
 
-Welcome to Anime World, your one-stop destination for discovering the best anime! This React application allows users to explore top anime, currently airing anime, and trending anime. Users can search for anime, view details, and enjoy a seamless browsing experience.
+Welcome to the site , displaying anime information ! This React application allows users to explore top anime, currently airing anime, and trending anime. Users can search for anime, view details, and enjoy a seamless browsing experience.
 
 ## Features
 

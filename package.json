@@ -16,7 +16,6 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "firebase": "^10.13.0",
     "jsonwebtoken": "^9.0.2",
@@ -59,6 +58,7 @@
   },
   "devDependencies": {
     "ajv": "^7.2.4",
+    "dotenv": "^16.4.5",
     "gh-pages": "^6.1.1"
   }
 }

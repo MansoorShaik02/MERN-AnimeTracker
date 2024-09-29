@@ -12,6 +12,7 @@ const Login = ({ onLogin }) => {
     const { login } = useAuth();
 
     const handleLogin = async (e) => {
+        console.log(process.env.REACT_APP_TITLE)
         e.preventDefault();
         try {
             const res = await axios.post('http://localhost:5000/api/users/login', { email, password });
