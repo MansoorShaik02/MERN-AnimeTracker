@@ -2,7 +2,8 @@ const express = require('express');
 const connectDB = require('./config/db');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
-require('dotenv').config();
+require('dotenv').config('{path:D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/backend/.env}');
+
 
 const app = express();
 
