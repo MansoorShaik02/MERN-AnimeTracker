@@ -12,6 +12,8 @@ const AnimeDetails = () => {
     const { id } = useParams();
     const [animeDetails, setAnimeDetails] = useState(null);
     const [message, setMessage] = useState('');
+    const [comments, setComments] = useState([]);
+    const [commentText, setCommentText] = useState('');
 
     useEffect(() => {
         const fetchAnimeDetails = async () => {
@@ -22,9 +24,45 @@ const AnimeDetails = () => {
                 console.error('Error fetching anime details:', error);
             }
         };
+
+        const fetchComments = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/api/users/comments/${id}`);
+                setComments(response.data);
+            } catch (error) {
+                console.error('Error fetching comments:', error);
+            }
+        };
+
         fetchAnimeDetails();
+        fetchComments();
     }, [id]);
 
+    const handleAddComment = async (e) => {
+        e.preventDefault();
+        if (!isAuthenticated) {
+            alert('You must be logged in to add a comment');
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.post(
+                'http://localhost:5000/api/users/comments',
+                { animeId: id, text: commentText },
+                {
+                    headers: {
+                        'x-auth-token': token,
+                    },
+                }
+            );
+
+            setComments([...comments, response.data]);
+            setCommentText('');
+        } catch (error) {
+            console.error('Error adding comment:', error);
+        }
+    };
     const handleAddToWatchlist = async () => {
         if (!isAuthenticated) {
             alert('You must be logged in to add to watchlist');
@@ -87,6 +125,7 @@ const AnimeDetails = () => {
         }
     };
 
+
     if (!animeDetails) {
         return <h2>Loading...</h2>;
     }
@@ -104,6 +143,27 @@ const AnimeDetails = () => {
                 <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
                 <button onClick={handleAddToWatchedlist}>Add to Watched List</button>
                 {message && <p>{message}</p>}
+
+                <div className="comments-section">
+                    <h2>Comments</h2>
+                    {comments.map(comment => (
+                        <div key={comment._id}>
+                            <p><strong>{comment.user.username}:</strong> {comment.text}</p>
+                            <p>{new Date(comment.createdAt).toLocaleString()}</p>
+                        </div>
+                    ))}
+                    {isAuthenticated && (
+                        <form onSubmit={handleAddComment}>
+                            <textarea
+                                value={commentText}
+                                onChange={(e) => setCommentText(e.target.value)}
+                                placeholder="Add a comment"
+                                required
+                            />
+                            <button type="submit">Submit</button>
+                        </form>
+                    )}
+                </div>
             </div>
 
             <AnimeTrailer />

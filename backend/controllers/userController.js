@@ -2,6 +2,34 @@ const User = require('../models/User');
 const Anime = require('../models/Anime');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Comment = require('../models/Comment');
+
+const addComment = async (req, res) => {
+    const { animeId, text } = req.body;
+    try {
+        const comment = new Comment({
+            animeId,
+            user: req.user.id,
+            text
+        });
+        await comment.save();
+        res.status(201).json(comment);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+};
+
+const getComments = async (req, res) => {
+    const { animeId } = req.params;
+    try {
+        const comments = await Comment.find({ animeId }).populate('user', ['username']);
+        res.json(comments);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+};
 
 // Register a new user
 const registerUser = async (req, res) => {
@@ -125,4 +153,4 @@ const getUserLists = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser, addToWatchlist, addToWatchedlist, getUserLists };
+module.exports = { registerUser, loginUser, addToWatchlist, addToWatchedlist, getUserLists, addComment, getComments };
