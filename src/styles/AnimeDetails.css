@@ -1,0 +1,142 @@
+/* AnimeDetails.css */
+
+.anime-details {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #1e1e1e;
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.anime-details img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.anime-details h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.anime-details p {
+  font-size: 1.2em;
+  margin: 10px 0;
+}
+
+.anime-details button {
+  background-color: #ff4500;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s;
+}
+
+.anime-details button:hover {
+  background-color: #ff6347;
+}
+
+.comments-section {
+  background-color: #2e2e2e;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.comments-section h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.comments-section p {
+  margin: 5px 0;
+}
+
+.comments-section form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.comments-section textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+
+  font-size: 1em;
+  resize: vertical;
+}
+
+.comments-section button {
+  align-self: flex-end;
+  background-color: #ff4500;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s;
+}
+
+.comments-section button:hover {
+  background-color: #ff6347;
+}
+
+.similar-anime-container {
+}
+
+.similar-anime-container h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.similar-anime-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0;
+  list-style-type: none;
+  width: 100%;
+}
+
+.similar-anime-item {
+  margin: 10px;
+  text-align: center;
+  flex: 1 0 21%;
+  max-width: 21%;
+}
+
+.similar-anime-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (max-width: 1200px) {
+  .similar-anime-item {
+    flex: 1 0 30%;
+    max-width: 30%;
+  }
+}
+
+@media (max-width: 768px) {
+  .similar-anime-item {
+    flex: 1 0 45%;
+    max-width: 45%;
+  }
+}
+
+@media (max-width: 480px) {
+  .similar-anime-item {
+    flex: 1 0 100%;
+    max-width: 100%;
+  }
+}

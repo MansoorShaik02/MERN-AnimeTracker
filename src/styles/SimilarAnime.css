@@ -1,0 +1,29 @@
+.similar-anime-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.similar-anime-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0;
+  list-style-type: none;
+  width: 100%;
+}
+
+.similar-anime-item {
+  text-align: center;
+  /* Adjusts the width of each card */
+}
+
+.similar-anime-link {
+  text-decoration: none;
+  color: inherit;
+  width: min-content;
+}

@@ -6,6 +6,9 @@ import SimilarAnime from '../components/SimilarAnime';
 import CharacterList from '../components/CharacterList';
 import AnimeTrailer from '../components/AnimeTrailer';
 import { useAuth } from '../context/AuthContext';
+import 'D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/AnimeDetails.css' // Adjust the path if needed
+
+// Import the CSS file
 
 const AnimeDetails = () => {
     const { isAuthenticated } = useAuth();
@@ -63,6 +66,7 @@ const AnimeDetails = () => {
             console.error('Error adding comment:', error);
         }
     };
+
     const handleAddToWatchlist = async () => {
         if (!isAuthenticated) {
             alert('You must be logged in to add to watchlist');
@@ -78,7 +82,7 @@ const AnimeDetails = () => {
             const animeData = {
                 mal_id: animeDetails.mal_id,
                 title: animeDetails.title,
-                image_url: animeDetails.images.jpg.image_url
+                image_url: animeDetails.images.jpg.image_url,
             };
 
             await axios.post('http://localhost:5000/api/users/watchlist', animeData, {
@@ -109,7 +113,7 @@ const AnimeDetails = () => {
             const animeData = {
                 mal_id: animeDetails.mal_id,
                 title: animeDetails.title,
-                image_url: animeDetails.images.jpg.image_url
+                image_url: animeDetails.images.jpg.image_url,
             };
 
             await axios.post('http://localhost:5000/api/users/watchedlist', animeData, {
@@ -124,7 +128,6 @@ const AnimeDetails = () => {
             setMessage('Failed to add to watched list.');
         }
     };
-
 
     if (!animeDetails) {
         return <h2>Loading...</h2>;
@@ -143,31 +146,30 @@ const AnimeDetails = () => {
                 <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
                 <button onClick={handleAddToWatchedlist}>Add to Watched List</button>
                 {message && <p>{message}</p>}
-
-                <div className="comments-section">
-                    <h2>Comments</h2>
-                    {comments.map(comment => (
-                        <div key={comment._id}>
-                            <p><strong>{comment.user.username}:</strong> {comment.text}</p>
-                            <p>{new Date(comment.createdAt).toLocaleString()}</p>
-                        </div>
-                    ))}
-                    {isAuthenticated && (
-                        <form onSubmit={handleAddComment}>
-                            <textarea
-                                value={commentText}
-                                onChange={(e) => setCommentText(e.target.value)}
-                                placeholder="Add a comment"
-                                required
-                            />
-                            <button type="submit">Submit</button>
-                        </form>
-                    )}
-                </div>
             </div>
 
             <AnimeTrailer />
             <CharacterList animeId={id} />
+            <div className="comments-section">
+                <h2>Comments</h2>
+                {comments.map(comment => (
+                    <div key={comment._id}>
+                        <p><strong>{comment.user.username}:</strong> {comment.text}</p>
+                        <p>{new Date(comment.createdAt).toLocaleString()}</p>
+                    </div>
+                ))}
+                {isAuthenticated && (
+                    <form onSubmit={handleAddComment}>
+                        <textarea
+                            value={commentText}
+                            onChange={(e) => setCommentText(e.target.value)}
+                            placeholder="Add a comment"
+                            required
+                        />
+                        <button type="submit">Submit</button>
+                    </form>
+                )}
+            </div>
             <SimilarAnime animeId={id} />
         </>
     );

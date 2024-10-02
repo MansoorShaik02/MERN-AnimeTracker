@@ -7,12 +7,12 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
-  background-color: #f5f5f5;
+  background-color: #1e1e1e;
 }
 
 /* Each character card */
 .character-card {
-  width: 200px;
+  width: 150px;
   padding: 10px;
   background-color: #fff;
   border-radius: 8px;
