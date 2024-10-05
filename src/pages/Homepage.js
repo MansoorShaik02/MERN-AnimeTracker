@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './HomePage.css'; // Ensure you create and link the CSS file
-
+import Animecard from '../components/Animecard'
 const Homepage = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [logoutMessage, setLogoutMessage] = useState('');
     const [popularAnime, setPopularAnime] = useState([]);
     const [upcoming, setUpcoming] = useState([])
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -44,6 +45,13 @@ const Homepage = () => {
         fetchupcomingAnime();
     }, []);
 
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'  // Smooth scroll to top
+        });
+    };
+
     const handleLogin = (status) => {
         setIsAuthenticated(status);
         setLogoutMessage('');
@@ -75,37 +83,50 @@ const Homepage = () => {
             </section>
 
             {/* Top 10 Popular Anime List */}
-            <section className="popular-anime-list">
-                <h2>Popular Anime Right Now</h2>
-                <div className="anime-list">
-                    {popularAnime.map(anime => (
-                        <Link style={{ textDecoration: 'none' }} to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
 
-                            <div key={anime.mal_id} className="anime-card">
-                                <img src={anime.images.jpg.image_url} alt={anime.title} className="anime-image" />
-                                <h3>{anime.title}</h3>
-                                <p>Rating: {anime.score}</p>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
-            </section>
+            <div className="similar-anime-container">
+                <h1> Anime Popular Right now</h1>
+                {loading && <p>Loading...</p>}
+                <ul className="similar-anime-list">
+                    {popularAnime.length > 0 ? (
+                        popularAnime.slice(0, 10).map((anime) => (
+                            <li key={anime.mal_id} className="similar-anime-item">
+                                <Link to={`/anime/${anime.mal_id}`} onClick={scrollToTop} className="similar-anime-link">
+                                    <Animecard
+                                        id={anime.mal_id}
+                                        title={anime.title}
+                                        src={anime.images.jpg.image_url}
+                                    />
+                                </Link>
+                            </li>
+                        ))
+                    ) : (
+                        <p>No popular anime found.</p>
+                    )}
+                </ul>
+            </div>
 
-            <section className="popular-anime-list">
-                <h2>Upcoming Anime</h2>
-                <div className="anime-list">
-                    {upcoming.map(anime => (
-                        <Link style={{ textDecoration: 'none' }} to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
-
-                            <div key={anime.mal_id} className="anime-card">
-                                <img src={anime.images.jpg.image_url} alt={anime.title} className="anime-image" />
-                                <h3>{anime.title}</h3>
-
-                            </div>
-                        </Link>
-                    ))}
-                </div>
-            </section>
+            <div className="similar-anime-container">
+                <h1>Upcoming Anime</h1>
+                {loading && <p>Loading...</p>}
+                <ul className="similar-anime-list">
+                    {upcoming.length > 0 ? (
+                        upcoming.slice(0, 10).map((anime) => (
+                            <li key={anime.mal_id} className="similar-anime-item">
+                                <Link to={`/anime/${anime.mal_id}`} onClick={scrollToTop} className="similar-anime-link">
+                                    <Animecard
+                                        id={anime.mal_id}
+                                        title={anime.title}
+                                        src={anime.images.jpg.image_url}
+                                    />
+                                </Link>
+                            </li>
+                        ))
+                    ) : (
+                        <p>No upcoming anime found.</p>
+                    )}
+                </ul>
+            </div>
 
 
             {/* Featured Sections */}

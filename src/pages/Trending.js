@@ -4,11 +4,27 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import LazyLoad from 'react-lazyload';
 import 'D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/Trending.css'; // Adjust the path if needed
 import { Link } from 'react-router-dom';
+import Animecard from '../components/Animecard';
 
 const Trending = () => {
     const [trendingAnime, setTrendingAnime] = useState([]);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
+
+    const [loading, setLoading] = useState(false);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     const fetchTrendingAnime = async () => {
         try {
@@ -32,6 +48,12 @@ const Trending = () => {
         }
     };
 
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'  // Smooth scroll to top
+        });
+    }
     useEffect(() => {
         fetchTrendingAnime();
     }, []);
@@ -40,26 +62,27 @@ const Trending = () => {
         <div className="trending-container">
             <h2>Trending Anime</h2>
 
-            <InfiniteScroll
-                dataLength={trendingAnime.length}
-                next={() => fetchTrendingAnime()}
-                hasMore={hasMore}
-                loader={<h4>Loading...</h4>}
-                endMessage={<p>No more trending anime</p>}
-            >
-                <ul className="anime-list">
-                    {trendingAnime.map((anime) => (
-                        <Link to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
-                            <li>
-                                <h3>{anime.title}</h3>
-                                <LazyLoad height={200} offset={100} once>
-                                    <img src={anime.images.jpg.image_url} alt={anime.title} />
-                                </LazyLoad>
+            <div className="similar-anime-container">
+                <h1> Anime Trending Right now</h1>
+                {loading && <p>Loading...</p>}
+                <ul className="similar-anime-list">
+                    {trendingAnime.length > 0 ? (
+                        trendingAnime.slice(0, 20).map((anime) => (
+                            <li key={anime.mal_id} className="similar-anime-item">
+                                <Link to={`/anime/${anime.mal_id}`} onClick={scrollToTop} className="similar-anime-link">
+                                    <Animecard
+                                        id={anime.mal_id}
+                                        title={anime.title}
+                                        src={anime.images.jpg.image_url}
+                                    />
+                                </Link>
                             </li>
-                        </Link>
-                    ))}
+                        ))
+                    ) : (
+                        <p>No similar anime found.</p>
+                    )}
                 </ul>
-            </InfiniteScroll>
+            </div>
         </div>
     );
 };

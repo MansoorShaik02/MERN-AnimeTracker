@@ -6,6 +6,7 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import LazyLoad from 'react-lazyload';
 import { Link } from "react-router-dom";
+import 'D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/Profilepage.css'
 
 const Profilepage = () => {
     const [watchlist, setWatchlist] = useState([]);

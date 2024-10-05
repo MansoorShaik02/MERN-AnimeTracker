@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+import "../styles/Register.css"
 
 const Register = () => {
     const [name, setName] = useState('');

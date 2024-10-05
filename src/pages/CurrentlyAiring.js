@@ -5,7 +5,7 @@ import Animecard from '../components/Animecard';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import '../styles/CurrentlyAiring.css';
-
+import './HomePage.css';
 const CurrentlyAiring = () => {
     const [animeList, setAnimeList] = useState([]);
     const { isAuthenticated } = useAuth();
@@ -23,9 +23,9 @@ const CurrentlyAiring = () => {
     }, []);
 
     return (
-        <div className="currently-airing">
+        <div className="similar-anime-container">
             <h1>Currently Airing Anime</h1>
-            <ul className="anime-list">
+            <ul className="similar-anime-list">
                 {animeList.map(anime => (
                     <Link to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
                         <Animecard
@@ -36,7 +36,7 @@ const CurrentlyAiring = () => {
                     </Link>
                 ))}
             </ul>
-            {!isAuthenticated && <p>Please log in to add to your watchlist or watched list.</p>}
+
         </div>
     );
 };

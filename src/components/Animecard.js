@@ -3,10 +3,16 @@ import "D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/Animecard.c
 
 const Animecard = (props) => {
     return (
-        <li className="anime-card" key={props.id}>
-            <img src={props.src} alt={props.title} />
-            <h3>{props.title}</h3>
-        </li>
+        <div className="main-container">
+            <div className="poster-container">
+                <img src={props.src} className="poster" alt={props.title} />
+            </div>
+            <div className="ticket-container">
+                <div className="ticket__content">
+                    <h4 className="ticket__movie-title">{props.title}</h4>
+                </div>
+            </div>
+        </div>
     );
 };
 

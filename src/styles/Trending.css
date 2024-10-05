@@ -2,7 +2,7 @@
 
 /* Container Styles */
 .trending-container {
-  max-width: 800px;
+  width: 100%;
   margin: auto;
   background-color: #ffffff;
   padding: 20px;
@@ -22,6 +22,7 @@
   list-style-type: none;
   padding: 0;
   margin: 0;
+  width: 100%;
 }
 
 .anime-list li {

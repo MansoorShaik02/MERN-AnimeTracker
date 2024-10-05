@@ -58,6 +58,7 @@
 
 .comments-section p {
   margin: 5px 0;
+  font-size: 30px;
 }
 
 .comments-section form {
@@ -91,9 +92,6 @@
   background-color: #ff6347;
 }
 
-.similar-anime-container {
-}
-
 .similar-anime-container h1 {
   font-size: 2em;
   margin-bottom: 20px;
@@ -111,32 +109,12 @@
 .similar-anime-item {
   margin: 10px;
   text-align: center;
-  flex: 1 0 21%;
-  max-width: 21%;
+  width: 240px;
+
+  max-width: fit-content;
 }
 
 .similar-anime-link {
   text-decoration: none;
   color: inherit;
-}
-
-@media (max-width: 1200px) {
-  .similar-anime-item {
-    flex: 1 0 30%;
-    max-width: 30%;
-  }
-}
-
-@media (max-width: 768px) {
-  .similar-anime-item {
-    flex: 1 0 45%;
-    max-width: 45%;
-  }
-}
-
-@media (max-width: 480px) {
-  .similar-anime-item {
-    flex: 1 0 100%;
-    max-width: 100%;
-  }
 }
