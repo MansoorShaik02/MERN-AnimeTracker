@@ -169,8 +169,7 @@ const AnimeDetails = () => {
                         <button type="submit">Submit</button>
                     </form>
                 )}
-            </div>
-            <SimilarAnime animeId={id} />
+            </div> <SimilarAnime animeId={id} />
         </>
     );
 };

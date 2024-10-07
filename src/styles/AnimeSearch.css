@@ -15,9 +15,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px;
+  flex-direction: column;
+  margin: 10px;
+  width: 290px;
 }
-
+.big-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .search-bar {
   width: 300px;
   padding: 10px;

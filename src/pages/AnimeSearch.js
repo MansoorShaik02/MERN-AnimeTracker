@@ -62,8 +62,9 @@ const AnimeSearch = () => {
     }, [page]);
 
     return (
-        <div>
-            <form className="search-container" onSubmit={handleSearch}>
+        <div className="big-container">
+            <p>Search for a anime here</p>
+            <div className="search-container" onSubmit={handleSearch}>
                 <input
                     className="search-bar"
                     type="text"
@@ -72,7 +73,7 @@ const AnimeSearch = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <button className="search-button" type="submit">Search</button>
-            </form>
+            </div>
 
             {searchPerformed && (
                 <InfiniteScroll
