@@ -3,6 +3,7 @@ const Anime = require('../models/Anime');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Comment = require('../models/Comment');
+const sendVerificationEmail = require('../sendVerificationEmail');
 
 const addComment = async (req, res) => {
     const { animeId, text } = req.body;
@@ -56,6 +57,7 @@ const registerUser = async (req, res) => {
         user.password = await bcrypt.hash(password, salt);
 
         await user.save();
+        sendVerificationEmail(user, req, res);
 
         const payload = { user: { id: user.id } };
 
@@ -63,6 +65,23 @@ const registerUser = async (req, res) => {
             if (err) throw err;
             res.json({ token });
         });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+
+};
+
+const verifyEmail = async (req, res) => {
+    try {
+        const user = await User.findOne({ verificationToken: req.params.token });
+        if (!user) return res.status(400).json({ msg: 'Invalid token' });
+
+        user.isVerified = true;
+        user.verificationToken = undefined;
+        await user.save();
+
+        res.status(200).json({ msg: 'Email verified successfully!' });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
@@ -78,6 +97,8 @@ const loginUser = async (req, res) => {
         let user = await User.findOne({ email });
         if (!user) return res.status(400).json({ msg: 'Invalid credentials no user' });
 
+        if (!user.isVerified) return res.status(400).json({ msg: 'Your email is not verified. Please check your email to verify your account.' });
+
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials no match' });
 
@@ -92,6 +113,8 @@ const loginUser = async (req, res) => {
         res.status(500).send('Server error');
     }
 };
+
+
 
 const addToWatchlist = async (req, res) => {
     const { mal_id, title, image_url } = req.body;
@@ -153,4 +176,4 @@ const getUserLists = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser, addToWatchlist, addToWatchedlist, getUserLists, addComment, getComments };
+module.exports = { registerUser, loginUser, addToWatchlist, addToWatchedlist, getUserLists, addComment, getComments, verifyEmail };

@@ -63,7 +63,7 @@ const AnimeSearch = () => {
 
     return (
         <div className="big-container">
-            <p>Search for a anime here</p>
+            <div></div>
             <div className="search-container" onSubmit={handleSearch}>
                 <input
                     className="search-bar"

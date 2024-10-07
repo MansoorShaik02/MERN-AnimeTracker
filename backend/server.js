@@ -15,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 //haha
 // Routes
+
 app.use('/api/users', userRoutes);
 
 const PORT = 5000;
