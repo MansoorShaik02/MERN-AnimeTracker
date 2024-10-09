@@ -36,6 +36,7 @@ const getComments = async (req, res) => {
 const registerUser = async (req, res) => {
     const { username, email, password } = req.body;
     console.log('Request Body:', req.body);
+
     if (!email) {
         return res.status(400).json({ msg: 'Please enter email fields' });
     }
@@ -49,7 +50,13 @@ const registerUser = async (req, res) => {
 
     try {
         let user = await User.findOne({ email });
-        if (user) return res.status(400).json({ msg: 'User already exists' });
+        if (user) {
+            if (!user.isVerified) {
+                sendVerificationEmail(user, req, res);
+                return res.status(200).json({ msg: 'Email already registered but not verified. Verification email resent.' });
+            }
+            return res.status(400).json({ msg: 'User already exists' });
+        }
 
         user = new User({ username, email, password });
 
@@ -69,7 +76,6 @@ const registerUser = async (req, res) => {
         console.error(err.message);
         res.status(500).send('Server error');
     }
-
 };
 
 const verifyEmail = async (req, res) => {

@@ -24,9 +24,8 @@ const Register = () => {
                 password,
             });
 
-            // Handle the token or success message here
-            setMessage('Registration successful!');
-            console.log(response.data.token);
+            // Handle the success message here
+            setMessage(response.data.msg);
         } catch (error) {
             console.error('Error registering user:', error.response?.data?.msg || error.message);
             setError('Registration failed: ' + (error.response?.data?.msg || 'Server error'));
