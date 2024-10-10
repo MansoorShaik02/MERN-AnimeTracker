@@ -14,6 +14,8 @@ import Login from './components/Login';
 import UserLists from './pages/UserLists';
 import { AuthProvider } from './context/AuthContext';
 import Profilepage from './pages/Profilepage';
+import Forgotpassword from './components/Forgotpassword';
+import Passwordreset from './components/Passwordreset';
 function App() {
 
 
@@ -36,7 +38,13 @@ function App() {
             <Route path="register" element={<Register />}></Route>
             <Route path="profile" element={<Profilepage />}></Route>
 
+            <Route path="/forgot-password" element={<Forgotpassword />} />
+
+            <Route path='/reset-password/:token' element={<Passwordreset />} ></Route>
+
             <Route path="/userlists" element={<UserLists />} />
+
+
           </Routes>
         </div>
       </Router>

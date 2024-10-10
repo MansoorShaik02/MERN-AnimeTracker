@@ -4,7 +4,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Comment = require('../models/Comment');
 const sendVerificationEmail = require('../sendVerificationEmail');
-
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 const addComment = async (req, res) => {
     const { animeId, text } = req.body;
     try {
@@ -171,6 +172,50 @@ const addToWatchedlist = async (req, res) => {
     }
 };
 
+const forgetpassword = async (req, res) => {
+    const { email } = req.body;
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ msg: 'Email does not exist' });
+        }
+
+        const token = crypto.randomBytes(20).toString('hex');
+
+        user.resetPasswordToken = token;
+        user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+        await user.save();
+        console.log('Email:', process.env.EMAIL);
+        console.log('Email Password:', process.env.EMAIL_PASSWORD);
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.EMAIL_PASSWORD
+            }
+
+        });
+
+        const mailOptions = {
+            from: process.env.EMAIL,
+            to: user.email,
+            subject: 'Password Reset',
+            text: `Please click on the following link, or paste it into your browser to reset your password: http://localhost:3000/reset-password\/${token}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`
+        };
+
+        transporter.sendMail(mailOptions, (err) => {
+            if (err) {
+                console.error('Error sending email:', err);
+                return res.status(500).json({ msg: 'Error sending email' });
+            }
+            res.status(200).json({ msg: 'Password reset email sent' });
+        });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+};
+
 // Fetch user's watchlist and watched list
 const getUserLists = async (req, res) => {
     try {
@@ -182,4 +227,30 @@ const getUserLists = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser, addToWatchlist, addToWatchedlist, getUserLists, addComment, getComments, verifyEmail };
+const resetpassword = async (req, res) => {
+    try {
+        const user = await User.findOne({
+            resetPasswordToken: req.params.token,
+            resetPasswordExpires: { $gt: Date.now() }
+        });
+
+        if (!user) {
+            return res.status(400).json({ msg: 'Password reset token is invalid or has expired' });
+        }
+
+        const { password } = req.body;
+
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(password, salt);
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+        await user.save();
+
+        res.status(200).json({ msg: 'Password has been reset' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+}
+
+module.exports = { registerUser, loginUser, addToWatchlist, addToWatchedlist, resetpassword, getUserLists, addComment, getComments, verifyEmail, forgetpassword };
