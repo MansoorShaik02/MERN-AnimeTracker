@@ -147,6 +147,34 @@ const addToWatchlist = async (req, res) => {
     }
 };
 
+// add to drop list 
+const addToDroplist = async (req, res) => {
+    const { mal_id, title, image_url } = req.body;
+
+    try {
+        const user = await User.findById(req.user.id).populate('droplist');
+        let anime = await Anime.findOne({ mal_id });
+
+        if (!anime) {
+            anime = new Anime({ mal_id, title, image_url });
+            await anime.save();
+        }
+
+        if (!user.droplist.some(animeItem => animeItem._id.equals(anime._id))) {
+            user.droplist.push(anime);
+            await user.save();
+        }
+
+        res.json(user.droplist);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+};
+
+
+
+
 // Add anime to watched list
 const addToWatchedlist = async (req, res) => {
     const { mal_id, title, image_url } = req.body;
@@ -219,8 +247,8 @@ const forgetpassword = async (req, res) => {
 // Fetch user's watchlist and watched list
 const getUserLists = async (req, res) => {
     try {
-        const user = await User.findById(req.user.id).populate('watchlist watchedlist');
-        res.json({ watchlist: user.watchlist, watchedlist: user.watchedlist, username: user.username, email: user.email });
+        const user = await User.findById(req.user.id).populate('watchlist watchedlist droplist');
+        res.json({ watchlist: user.watchlist, watchedlist: user.watchedlist, username: user.username, email: user.email, droplist: user.droplist });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
@@ -253,4 +281,4 @@ const resetpassword = async (req, res) => {
     }
 }
 
-module.exports = { registerUser, loginUser, addToWatchlist, addToWatchedlist, resetpassword, getUserLists, addComment, getComments, verifyEmail, forgetpassword };
+module.exports = { registerUser, addToDroplist, loginUser, addToWatchlist, addToWatchedlist, resetpassword, getUserLists, addComment, getComments, verifyEmail, forgetpassword };

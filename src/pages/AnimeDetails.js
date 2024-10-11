@@ -97,7 +97,40 @@ const AnimeDetails = () => {
             setMessage('Failed to add to watchlist.');
         }
     };
+    // add to drop list
 
+    const handleAddToDroplist = async () => {
+        if (!isAuthenticated) {
+            alert('You must be logged in to add to droplistt');
+            return;
+        }
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setMessage('Please log in first.');
+                return;
+            }
+
+            const animeData = {
+                mal_id: animeDetails.mal_id,
+                title: animeDetails.title,
+                image_url: animeDetails.images.jpg.image_url,
+            };
+
+            await axios.post('http://localhost:5000/api/users/droplist', animeData, {
+                headers: {
+                    'x-auth-token': token,
+                },
+            });
+
+            setMessage('Added to droplist!');
+        } catch (error) {
+            console.error('Error adding to droplist:', error);
+            setMessage('Failed to add to droplist.');
+        }
+    };
+
+    // aaa
     const handleAddToWatchedlist = async () => {
         if (!isAuthenticated) {
             alert('You must be logged in to add to watched list');
@@ -145,6 +178,7 @@ const AnimeDetails = () => {
 
                 <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
                 <button onClick={handleAddToWatchedlist}>Add to Watched List</button>
+                <button onClick={handleAddToDroplist}>Add to Drop List</button>
                 {message && <p>{message}</p>}
             </div>
 

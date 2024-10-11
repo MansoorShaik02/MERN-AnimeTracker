@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registerUser, loginUser, addToWatchlist, addToWatchedlist, getUserLists, addComment, getComments, verifyEmail, forgetpassword, resetpassword } = require('../controllers/userController');
+const { registerUser, loginUser, addToWatchlist, addToDroplist, addToWatchedlist, getUserLists, addComment, getComments, verifyEmail, forgetpassword, resetpassword } = require('../controllers/userController');
 const verifyToken = require('../middleware/authMiddleware')
 
 router.post('/register', registerUser);
@@ -9,6 +9,7 @@ router.get('/verify-email/:token', verifyEmail);
 
 router.post('/watchlist', verifyToken, addToWatchlist);
 router.post('/watchedlist', verifyToken, addToWatchedlist);
+router.post('/droplist', verifyToken, addToDroplist);
 router.get('/userlists', verifyToken, getUserLists);
 router.post('/comments', verifyToken, addComment);
 router.get('/comments/:animeId', getComments);
