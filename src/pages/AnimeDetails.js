@@ -1,4 +1,3 @@
-// src/components/AnimeDetails.js
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -6,9 +5,7 @@ import SimilarAnime from '../components/SimilarAnime';
 import CharacterList from '../components/CharacterList';
 import AnimeTrailer from '../components/AnimeTrailer';
 import { useAuth } from '../context/AuthContext';
-import 'D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/AnimeDetails.css' // Adjust the path if needed
-
-// Import the CSS file
+import '../styles/AnimeDetails.css'; // Adjust the path if needed
 
 const AnimeDetails = () => {
     const { isAuthenticated } = useAuth();
@@ -67,9 +64,9 @@ const AnimeDetails = () => {
         }
     };
 
-    const handleAddToWatchlist = async () => {
+    const handleAddToList = async (listType) => {
         if (!isAuthenticated) {
-            alert('You must be logged in to add to watchlist');
+            alert(`You must be logged in to add to ${listType}`);
             return;
         }
         try {
@@ -85,80 +82,16 @@ const AnimeDetails = () => {
                 image_url: animeDetails.images.jpg.image_url,
             };
 
-            await axios.post('http://localhost:5000/api/users/watchlist', animeData, {
+            await axios.post(`http://localhost:5000/api/users/${listType}`, animeData, {
                 headers: {
                     'x-auth-token': token,
                 },
             });
 
-            setMessage('Added to Watchlist!');
+            setMessage(`Added to ${listType.replace('list', ' List')}!`);
         } catch (error) {
-            console.error('Error adding to watchlist:', error);
-            setMessage('Failed to add to watchlist.');
-        }
-    };
-    // add to drop list
-
-    const handleAddToDroplist = async () => {
-        if (!isAuthenticated) {
-            alert('You must be logged in to add to droplistt');
-            return;
-        }
-        try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                setMessage('Please log in first.');
-                return;
-            }
-
-            const animeData = {
-                mal_id: animeDetails.mal_id,
-                title: animeDetails.title,
-                image_url: animeDetails.images.jpg.image_url,
-            };
-
-            await axios.post('http://localhost:5000/api/users/droplist', animeData, {
-                headers: {
-                    'x-auth-token': token,
-                },
-            });
-
-            setMessage('Added to droplist!');
-        } catch (error) {
-            console.error('Error adding to droplist:', error);
-            setMessage('Failed to add to droplist.');
-        }
-    };
-
-    // aaa
-    const handleAddToWatchedlist = async () => {
-        if (!isAuthenticated) {
-            alert('You must be logged in to add to watched list');
-            return;
-        }
-        try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                setMessage('Please log in first.');
-                return;
-            }
-
-            const animeData = {
-                mal_id: animeDetails.mal_id,
-                title: animeDetails.title,
-                image_url: animeDetails.images.jpg.image_url,
-            };
-
-            await axios.post('http://localhost:5000/api/users/watchedlist', animeData, {
-                headers: {
-                    'x-auth-token': token,
-                },
-            });
-
-            setMessage('Added to Watched List!');
-        } catch (error) {
-            console.error('Error adding to watched list:', error);
-            setMessage('Failed to add to watched list.');
+            console.error(`Error adding to ${listType}:`, error);
+            setMessage(`Failed to add to ${listType}.`);
         }
     };
 
@@ -176,9 +109,11 @@ const AnimeDetails = () => {
                 <p><strong>Status:</strong> {animeDetails.status}</p>
                 <p><strong>Synopsis:</strong> {animeDetails.synopsis}</p>
 
-                <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
-                <button onClick={handleAddToWatchedlist}>Add to Watched List</button>
-                <button onClick={handleAddToDroplist}>Add to Drop List</button>
+                <div className="button-container">
+                    <button onClick={() => handleAddToList('watchlist')}>Add to Watchlist</button>
+                    <button onClick={() => handleAddToList('watchedlist')}>Add to Watched List</button>
+                    <button onClick={() => handleAddToList('droplist')}>Add to Drop List</button>
+                </div>
                 {message && <p>{message}</p>}
             </div>
 
@@ -203,7 +138,8 @@ const AnimeDetails = () => {
                         <button type="submit">Submit</button>
                     </form>
                 )}
-            </div> <SimilarAnime animeId={id} />
+            </div>
+            <SimilarAnime animeId={id} />
         </>
     );
 };

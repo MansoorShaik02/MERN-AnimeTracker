@@ -122,23 +122,30 @@ const loginUser = async (req, res) => {
 };
 
 
-
 const addToWatchlist = async (req, res) => {
     const { mal_id, title, image_url } = req.body;
 
     try {
-        const user = await User.findById(req.user.id).populate('watchlist');
-        let anime = await Anime.findOne({ mal_id });
+        const user = await User.findById(req.user.id)
+            .populate('watchlist')
+            .populate('droplist')
+            .populate('watchedlist');
 
+        // Check if the anime is already in any list
+        if (user.watchlist.some(animeItem => animeItem.mal_id === mal_id) ||
+            user.droplist.some(animeItem => animeItem.mal_id === mal_id) ||
+            user.watchedlist.some(animeItem => animeItem.mal_id === mal_id)) {
+            return res.status(400).json({ msg: 'Anime already added to a list' });
+        }
+
+        let anime = await Anime.findOne({ mal_id });
         if (!anime) {
             anime = new Anime({ mal_id, title, image_url });
             await anime.save();
         }
 
-        if (!user.watchlist.some(animeItem => animeItem._id.equals(anime._id))) {
-            user.watchlist.push(anime);
-            await user.save();
-        }
+        user.watchlist.push(anime);
+        await user.save();
 
         res.json(user.watchlist);
     } catch (err) {
@@ -147,23 +154,30 @@ const addToWatchlist = async (req, res) => {
     }
 };
 
-// add to drop list 
 const addToDroplist = async (req, res) => {
     const { mal_id, title, image_url } = req.body;
 
     try {
-        const user = await User.findById(req.user.id).populate('droplist');
-        let anime = await Anime.findOne({ mal_id });
+        const user = await User.findById(req.user.id)
+            .populate('watchlist')
+            .populate('droplist')
+            .populate('watchedlist');
 
+        // Check if the anime is already in any list
+        if (user.watchlist.some(animeItem => animeItem.mal_id === mal_id) ||
+            user.droplist.some(animeItem => animeItem.mal_id === mal_id) ||
+            user.watchedlist.some(animeItem => animeItem.mal_id === mal_id)) {
+            return res.status(400).json({ msg: 'Anime already added to a list' });
+        }
+
+        let anime = await Anime.findOne({ mal_id });
         if (!anime) {
             anime = new Anime({ mal_id, title, image_url });
             await anime.save();
         }
 
-        if (!user.droplist.some(animeItem => animeItem._id.equals(anime._id))) {
-            user.droplist.push(anime);
-            await user.save();
-        }
+        user.droplist.push(anime);
+        await user.save();
 
         res.json(user.droplist);
     } catch (err) {
@@ -172,26 +186,30 @@ const addToDroplist = async (req, res) => {
     }
 };
 
-
-
-
-// Add anime to watched list
 const addToWatchedlist = async (req, res) => {
     const { mal_id, title, image_url } = req.body;
 
     try {
-        const user = await User.findById(req.user.id).populate('watchedlist');
-        let anime = await Anime.findOne({ mal_id });
+        const user = await User.findById(req.user.id)
+            .populate('watchlist')
+            .populate('droplist')
+            .populate('watchedlist');
 
+        // Check if the anime is already in any list
+        if (user.watchlist.some(animeItem => animeItem.mal_id === mal_id) ||
+            user.droplist.some(animeItem => animeItem.mal_id === mal_id) ||
+            user.watchedlist.some(animeItem => animeItem.mal_id === mal_id)) {
+            return res.status(400).json({ msg: 'Anime already added to a list' });
+        }
+
+        let anime = await Anime.findOne({ mal_id });
         if (!anime) {
             anime = new Anime({ mal_id, title, image_url });
             await anime.save();
         }
 
-        if (!user.watchedlist.some(animeItem => animeItem._id.equals(anime._id))) {
-            user.watchedlist.push(anime);
-            await user.save();
-        }
+        user.watchedlist.push(anime);
+        await user.save();
 
         res.json(user.watchedlist);
     } catch (err) {
@@ -199,7 +217,6 @@ const addToWatchedlist = async (req, res) => {
         res.status(500).send('Server error');
     }
 };
-
 const forgetpassword = async (req, res) => {
     const { email } = req.body;
     try {
