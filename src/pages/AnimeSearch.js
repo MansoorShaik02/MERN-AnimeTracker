@@ -13,23 +13,25 @@ const AnimeSearch = () => {
     const [loading, setLoading] = useState(false);
     const [searchPerformed, setSearchPerformed] = useState(false);
 
-    const fetchAnime = async () => {
+    const fetchAnime = async (reset = false) => {
         try {
             setLoading(true);
             const response = await axios.get('https://api.jikan.moe/v4/anime', {
                 params: {
                     q: searchTerm,
-                    page: page,
+                    page: reset ? 1 : page,
                 },
             });
 
             const newAnimeList = response.data.data;
 
-            setAnimeList((prevAnimeList) => [...prevAnimeList, ...newAnimeList]);
-            setPage((prevPage) => prevPage + 1);
+            setAnimeList((prevAnimeList) => reset ? newAnimeList : [...prevAnimeList, ...newAnimeList]);
+            setPage((prevPage) => reset ? 2 : prevPage + 1);
 
             if (newAnimeList.length === 0 || newAnimeList.length < 25) {
                 setHasMore(false);
+            } else {
+                setHasMore(true);
             }
             setLoading(false);
         } catch (error) {
@@ -52,27 +54,28 @@ const AnimeSearch = () => {
         setPage(1);
         setHasMore(true);
         setSearchPerformed(true);  // Set search performed to true
-        fetchAnime();
+        fetchAnime(true); // Reset the anime list on new search
     };
 
     useEffect(() => {
-        if (page > 1) {
+        if (page > 1 && !loading) {
             fetchAnime();
         }
     }, [page]);
 
     return (
         <div className="big-container">
-            <div></div>
-            <div className="search-container" onSubmit={handleSearch}>
-                <input
-                    className="search-bar"
-                    type="text"
-                    placeholder="Search Anime"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <button className="search-button" type="submit">Search</button>
+            <div className="search-container">
+                <form onSubmit={handleSearch}>
+                    <input
+                        className="search-bar"
+                        type="text"
+                        placeholder="Search Anime"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <button className="search-button" type="submit">Search</button>
+                </form>
             </div>
 
             {searchPerformed && (
@@ -84,7 +87,6 @@ const AnimeSearch = () => {
                     endMessage={<p>No more results</p>}
                 >
                     <div className="similar-anime-container">
-                        {loading && <p>Loading...</p>}
                         <ul className="similar-anime-list">
                             {animeList.map((anime) => (
                                 <li key={anime.mal_id} className="similar-anime-item">

@@ -4,7 +4,7 @@
 }
 body,
 html {
-  background-color: green;
+  background-color: #1e1e1e;
 }
 .hero {
   background-color: #1e1e1e;
@@ -68,6 +68,11 @@ html {
   display: flex;
   justify-content: space-around;
   margin: 20px 0;
+  background-color: #1e1e1e;
+}
+
+.featured-sections h2 {
+  color: wheat;
 }
 
 .featured-section {

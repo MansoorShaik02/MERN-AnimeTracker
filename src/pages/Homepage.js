@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './HomePage.css'; // Ensure you create and link the CSS file
 import Animecard from '../components/Animecard'
+import StaticGenres from '../helpers/StaticGenres';
 const Homepage = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [logoutMessage, setLogoutMessage] = useState('');
@@ -10,6 +11,11 @@ const Homepage = () => {
     const [upcoming, setUpcoming] = useState([])
     const [loading, setLoading] = useState(false);
     const [AiringToday, setAiringToday] = useState([])
+
+
+
+
+
     useEffect(() => {
         const token = localStorage.getItem('token');
 
@@ -60,6 +66,7 @@ const Homepage = () => {
         fetchupcomingAnime();
     }, []);
 
+
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
@@ -71,6 +78,8 @@ const Homepage = () => {
         setIsAuthenticated(status);
         setLogoutMessage('');
     };
+
+
 
     const handleLogout = () => {
         const token = localStorage.getItem('token');
@@ -86,6 +95,8 @@ const Homepage = () => {
         }
     };
 
+
+
     return (
         <div classname='actualhomepage'>
             <div className="homepage">
@@ -94,12 +105,11 @@ const Homepage = () => {
                     <div className="hero-content">
                         <h1>Welcome to Anime World</h1>
                         <p>Your one-stop destination for discovering the best anime!</p>
+                        <StaticGenres></StaticGenres>
                         <Link to="/search" className="cta-button">Search Anime</Link>
                     </div>
                 </section>
-
                 {/* Top 10 Popular Anime List */}
-
                 <div className="similar-anime-container">
                     <h1> Anime Popular Right now</h1>
                     {loading && <p>Loading...</p>}
@@ -120,6 +130,7 @@ const Homepage = () => {
                             <p>No popular anime found.</p>
                         )}
                     </ul>
+
                 </div>
 
                 <div className="similar-anime-container">

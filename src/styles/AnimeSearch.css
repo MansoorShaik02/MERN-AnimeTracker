@@ -16,16 +16,16 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin: 10px;
-  width: 290px;
 }
 .big-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  background-color: #1e1e1e;
 }
 .search-bar {
-  width: 300px;
+  width: 240px;
   padding: 10px;
   border: 2px solid #457fb4;
   border-radius: 5px;
