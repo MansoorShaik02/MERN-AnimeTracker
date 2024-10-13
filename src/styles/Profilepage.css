@@ -5,6 +5,35 @@ body,
 #app > div {
   height: 100%;
   width: 100%;
+  background-color: #1e1e1e;
+}
+
+h2 {
+  color: white;
+}
+
+.similar-anime-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: #1e1e1e;
+  /* border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); */
+}
+
+.similar-anime-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0;
+  list-style-type: none;
+  width: 100%;
+}
+
+.similar-anime-item {
+  text-align: center;
+  /* Adjusts the width of each card */
 }
 
 form {
@@ -55,4 +84,7 @@ p[style*="color: green"] {
 
 p[style*="color: red"] {
   color: #dc3545;
+}
+h3 {
+  color: white;
 }

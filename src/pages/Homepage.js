@@ -202,7 +202,7 @@ const Homepage = () => {
                 </footer>
             </div>
 
-            <div className='Genre'> Genre</div>
+
         </div>
     );
 };

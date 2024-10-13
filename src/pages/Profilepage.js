@@ -7,6 +7,7 @@ import Register from "../components/Register";
 import LazyLoad from 'react-lazyload';
 import { Link } from "react-router-dom";
 import 'D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/Profilepage.css';
+import Animecard from '../components/Animecard';
 
 const Profilepage = () => {
     const [watchlist, setWatchlist] = useState([]);
@@ -55,7 +56,7 @@ const Profilepage = () => {
                 </div>
             ) : (
                 <>
-                    <div>
+                    <div className='similar-anime-container'>
                         <button onClick={logout}>Logout</button>
                         <div>
                             <h3>Username: {userInfo.username}</h3>
@@ -63,45 +64,42 @@ const Profilepage = () => {
                         </div>
                         <div>
                             <h3>Watchlist</h3>
-                            <ul>
+                            <ul className='similar-anime-list '>
                                 {watchlist.map((anime) => (
                                     <Link to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
-                                        <li>
-                                            <h3>{anime.title}</h3>
-                                            <LazyLoad height={200} offset={100} once>
-                                                <img src={anime.image_url} alt={anime.title} />
-                                            </LazyLoad>
-                                        </li>
+                                        <Animecard
+                                            id={anime.mal_id}
+                                            title={anime.title}
+                                            src={anime.image_url}
+                                        />
                                     </Link>
                                 ))}
                             </ul>
                         </div>
                         <div>
                             <h3>Watched List</h3>
-                            <ul>
+                            <ul className='similar-anime-list'>
                                 {watchedlist.map((anime) => (
                                     <Link to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
-                                        <li>
-                                            <h3>{anime.title}</h3>
-                                            <LazyLoad height={200} offset={100} once>
-                                                <img src={anime.image_url} alt={anime.title} />
-                                            </LazyLoad>
-                                        </li>
+                                        <Animecard
+                                            id={anime.mal_id}
+                                            title={anime.title}
+                                            src={anime.image_url}
+                                        />
                                     </Link>
                                 ))}
                             </ul>
                         </div>
                         <div>
                             <h3>Dropped List</h3>
-                            <ul>
+                            <ul className='similar-anime-list'>
                                 {droppedlist.map((anime) => (
                                     <Link to={`/anime/${anime.mal_id}`} key={anime.mal_id}>
-                                        <li>
-                                            <h3>{anime.title}</h3>
-                                            <LazyLoad height={200} offset={100} once>
-                                                <img src={anime.image_url} alt={anime.title} />
-                                            </LazyLoad>
-                                        </li>
+                                        <Animecard
+                                            id={anime.mal_id}
+                                            title={anime.title}
+                                            src={anime.image_url}
+                                        />
                                     </Link>
                                 ))}
                             </ul>
