@@ -323,4 +323,31 @@ const resetpassword = async (req, res) => {
     }
 }
 
-module.exports = { registerUser, deletedatadb, addToDroplist, loginUser, addToWatchlist, addToWatchedlist, resetpassword, getUserLists, addComment, getComments, verifyEmail, forgetpassword };
+
+const deleteFromList = async (req, res) => {
+    const { listType, animeId } = req.params;
+    const validLists = ['watchlist', 'watchedlist', 'droplist'];
+
+    if (!validLists.includes(listType)) {
+        return res.status(400).json({ msg: 'Invalid list type' });
+    }
+
+    try {
+        const user = await User.findById(req.user.id).populate(listType);
+        const listIndex = user[listType].findIndex(animeItem => animeItem._id.toString() === animeId);
+
+        if (listIndex === -1) {
+            return res.status(404).json({ msg: 'Anime not found in the list' });
+        }
+
+        user[listType].splice(listIndex, 1); // Remove anime from list
+        await user.save();
+
+        res.status(200).json({ msg: 'Anime removed from list', list: user[listType] });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+};
+
+module.exports = { registerUser, deleteFromList, deletedatadb, addToDroplist, loginUser, addToWatchlist, addToWatchedlist, resetpassword, getUserLists, addComment, getComments, verifyEmail, forgetpassword };

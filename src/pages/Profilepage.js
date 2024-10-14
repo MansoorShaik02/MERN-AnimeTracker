@@ -4,9 +4,9 @@ import { useAuth } from '../context/AuthContext';
 import Login from "../components/Login";
 import Register from "../components/Register";
 import LazyLoad from 'react-lazyload';
-
 import { Link } from "react-router-dom";
-import '../styles/Profilepage.css'; // Adjust the path if needed
+import 'D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/Profilepage.css';
+import Animecard from '../components/Animecard';
 
 const Profilepage = () => {
     const [watchlist, setWatchlist] = useState([]);
@@ -24,6 +24,8 @@ const Profilepage = () => {
                     headers: { 'x-auth-token': token }
                 });
 
+                console.log('Response Data:', response.data); // Debugging: Log the response data
+
                 setWatchlist(response.data.watchlist || []);
                 setWatchedlist(response.data.watchedlist || []);
                 setDroppedlist(response.data.droplist || []);
@@ -40,47 +42,20 @@ const Profilepage = () => {
         }
     }, [isAuthenticated]);
 
-    const handleDelete = async (animeId) => {
+    const deleteAnime = async (listType, animeId) => {
         try {
             const token = localStorage.getItem('token');
+            await axios.delete(`http://localhost:5000/api/users/list/${listType}/${animeId}`, {
+                headers: { 'x-auth-token': token }
+            });
 
-            // Determine which list the anime is in
-            let listType = '';
-            if (watchlist.some(anime => anime.mal_id === animeId)) {
-                listType = 'watchlist';
-            } else if (watchedlist.some(anime => anime.mal_id === animeId)) {
-                listType = 'watchedlist';
-            } else if (droppedlist.some(anime => anime.mal_id === animeId)) {
-                listType = 'droplist';
-            }
-            console.log(listType)
-            if (listType) {
-                const response = await axios.delete(`http://localhost:5000/api/users/${listType}/${animeId}`, {
-                    headers: { 'x-auth-token': token }
-
-
-                }
-                    , console.log("Identified list type"));
-
-                if (response.status === 200) {
-                    if (listType === 'watchlist') {
-                        setWatchlist(watchlist.filter(anime => anime.mal_id !== animeId));
-                        console.log("watchlist this is")
-                    } else if (listType === 'watchedlist') {
-                        setWatchedlist(watchedlist.filter(anime => anime.mal_id !== animeId));
-                        console.log("watchedlist this is")
-                    } else if (listType === 'droplist') {
-                        setDroppedlist(droppedlist.filter(anime => anime.mal_id !== animeId));
-                        console.log("dropped this is")
-                    }
-                    else {
-                        console.log("no list found")
-                    }
-                } else {
-                    console.error('Error deleting anime from list:', response.data);
-                }
-            } else {
-                console.error('Anime not found in any list');
+            // Remove the anime from the state
+            if (listType === 'watchlist') {
+                setWatchlist(prevList => prevList.filter(anime => anime._id !== animeId));
+            } else if (listType === 'watchedlist') {
+                setWatchedlist(prevList => prevList.filter(anime => anime._id !== animeId));
+            } else if (listType === 'droplist') {
+                setDroppedlist(prevList => prevList.filter(anime => anime._id !== animeId));
             }
         } catch (err) {
             console.error('Error deleting anime from list:', err);
@@ -97,65 +72,60 @@ const Profilepage = () => {
                 </div>
             ) : (
                 <>
-                    <div>
+                    <div className='similar-anime-container'>
                         <button onClick={logout}>Logout</button>
                         <div>
                             <h3>Username: {userInfo.username}</h3>
                             <h3>Email: {userInfo.email}</h3>
                         </div>
-                        <div className="user-statistics">
-                            <h3>User Statistics</h3>
-                            <ul>
-                                <li>Total Watched Anime: {watchedlist.length}</li>
-                                <li>Watchlist Anime: {watchlist.length}</li>
-                                <li>Dropped Anime: {droppedlist.length}</li>
-                            </ul>
-                        </div>
                         <div>
                             <h3>Watchlist</h3>
-                            <ul>
+                            <ul className='similar-anime-list '>
                                 {watchlist.map((anime) => (
-                                    <li key={anime.mal_id}>
+                                    <div key={anime._id}>
                                         <Link to={`/anime/${anime.mal_id}`}>
-                                            <h3>{anime.title}</h3>
+                                            <Animecard
+                                                id={anime.mal_id}
+                                                title={anime.title}
+                                                src={anime.image_url}
+                                            />
                                         </Link>
-                                        <LazyLoad height={200} offset={100} once>
-                                            <img src={anime.image_url} alt={anime.title} />
-                                        </LazyLoad>
-                                        <button onClick={() => handleDelete(anime.mal_id)}>Delete</button>
-                                    </li>
+                                        <button onClick={() => deleteAnime('watchlist', anime._id)}>Delete</button>
+                                    </div>
                                 ))}
                             </ul>
                         </div>
                         <div>
                             <h3>Watched List</h3>
-                            <ul>
+                            <ul className='similar-anime-list'>
                                 {watchedlist.map((anime) => (
-                                    <li key={anime.mal_id}>
+                                    <div key={anime._id}>
                                         <Link to={`/anime/${anime.mal_id}`}>
-                                            <h3>{anime.title}</h3>
+                                            <Animecard
+                                                id={anime.mal_id}
+                                                title={anime.title}
+                                                src={anime.image_url}
+                                            />
                                         </Link>
-                                        <LazyLoad height={200} offset={100} once>
-                                            <img src={anime.image_url} alt={anime.title} />
-                                        </LazyLoad>
-                                        <button onClick={() => handleDelete(anime.mal_id)}>Delete</button>
-                                    </li>
+                                        <button onClick={() => deleteAnime('watchedlist', anime._id)}>Delete</button>
+                                    </div>
                                 ))}
                             </ul>
                         </div>
                         <div>
                             <h3>Dropped List</h3>
-                            <ul>
+                            <ul className='similar-anime-list'>
                                 {droppedlist.map((anime) => (
-                                    <li key={anime.mal_id}>
+                                    <div key={anime._id}>
                                         <Link to={`/anime/${anime.mal_id}`}>
-                                            <h3>{anime.title}</h3>
+                                            <Animecard
+                                                id={anime.mal_id}
+                                                title={anime.title}
+                                                src={anime.image_url}
+                                            />
                                         </Link>
-                                        <LazyLoad height={200} offset={100} once>
-                                            <img src={anime.image_url} alt={anime.title} />
-                                        </LazyLoad>
-                                        <button onClick={() => handleDelete(anime.mal_id)}>Delete</button>
-                                    </li>
+                                        <button onClick={() => deleteAnime('droplist', anime._id)}>Delete</button>
+                                    </div>
                                 ))}
                             </ul>
                         </div>
