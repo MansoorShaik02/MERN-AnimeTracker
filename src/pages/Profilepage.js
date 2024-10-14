@@ -62,12 +62,18 @@ const Profilepage = () => {
         }
     };
 
+    const watchlistCount = watchlist.length;
+    const watchedlistCount = watchedlist.length;
+    const droppedlistCount = droppedlist.length;
+
     return (
         <div className="profile-page">
             <h2>Your Profile</h2>
             {!isAuthenticated ? (
-                <div>
+                <div className='usercomponent'>
+                    <h2>Login </h2>
                     <Login />
+                    <h2>Register</h2>
                     <Register />
                 </div>
             ) : (
@@ -75,8 +81,20 @@ const Profilepage = () => {
                     <div className='similar-anime-container'>
                         <button onClick={logout}>Logout</button>
                         <div>
-                            <h3>Username: {userInfo.username}</h3>
-                            <h3>Email: {userInfo.email}</h3>
+                            <div className='profile-stats'>
+                                <div>
+                                    <h3>Username: {userInfo.username}</h3>
+                                </div>
+                                <div>
+                                    <h3>Watchlist Count: {watchlistCount}</h3>
+                                </div>
+                                <div>
+                                    <h3>Watched List Count: {watchedlistCount}</h3>
+                                </div>
+                                <div>
+                                    <h3>Dropped List Count: {droppedlistCount}</h3>
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <h3>Watchlist</h3>

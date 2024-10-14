@@ -188,7 +188,7 @@ const AnimeDetails = () => {
                 <h2>Comments</h2>
                 {comments.map(comment => (
                     <div key={comment._id}>
-                        <p><strong>{comment.user?.username || "[Deleted Profile]"}:</strong> {comment.text}</p>
+                        <p><strong>{comment.user.username || "[Deleted Profile]"}:</strong> {comment.text}</p>
                         <p>{new Date(comment.createdAt).toLocaleString()}</p>
                     </div>
                 ))}

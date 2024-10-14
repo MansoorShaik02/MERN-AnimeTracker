@@ -59,31 +59,31 @@ const Trending = () => {
     }, []);
 
     return (
-        <div className="trending-container">
-            <h2>Trending Anime</h2>
 
-            <div className="similar-anime-container">
-                <h1> Anime Trending Right now</h1>
-                {loading && <p>Loading...</p>}
-                <ul className="similar-anime-list">
-                    {trendingAnime.length > 0 ? (
-                        trendingAnime.slice(0, 20).map((anime) => (
-                            <li key={anime.mal_id} className="similar-anime-item">
-                                <Link to={`/anime/${anime.mal_id}`} onClick={scrollToTop} className="similar-anime-link">
-                                    <Animecard
-                                        id={anime.mal_id}
-                                        title={anime.title}
-                                        src={anime.images.jpg.image_url}
-                                    />
-                                </Link>
-                            </li>
-                        ))
-                    ) : (
-                        <p>No similar anime found.</p>
-                    )}
-                </ul>
-            </div>
+
+
+        <div className="similar-anime-container">
+            <h1> Anime Trending Right now</h1>
+            {loading && <p>Loading...</p>}
+            <ul className="similar-anime-list">
+                {trendingAnime.length > 0 ? (
+                    trendingAnime.slice(0, 20).map((anime) => (
+                        <li key={anime.mal_id} className="similar-anime-item">
+                            <Link to={`/anime/${anime.mal_id}`} onClick={scrollToTop} className="similar-anime-link">
+                                <Animecard
+                                    id={anime.mal_id}
+                                    title={anime.title}
+                                    src={anime.images.jpg.image_url}
+                                />
+                            </Link>
+                        </li>
+                    ))
+                ) : (
+                    <p>No similar anime found.</p>
+                )}
+            </ul>
         </div>
+
     );
 };
 
