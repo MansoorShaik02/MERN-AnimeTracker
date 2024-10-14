@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
-import Login from "../components/Login";
-import Register from "../components/Register";
-import LazyLoad from 'react-lazyload';
-import { Link } from "react-router-dom";
-import 'D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/Profilepage.css';
+import Login from '../components/Login';
+import Register from '../components/Register';
+import { Link } from 'react-router-dom';
 import Animecard from '../components/Animecard';
+import '../styles/Profilepage.css';
 
 const Profilepage = () => {
     const [watchlist, setWatchlist] = useState([]);
@@ -24,12 +23,9 @@ const Profilepage = () => {
                     headers: { 'x-auth-token': token }
                 });
 
-                console.log('Response Data:', response.data); // Debugging: Log the response data
-
                 setWatchlist(response.data.watchlist || []);
                 setWatchedlist(response.data.watchedlist || []);
                 setDroppedlist(response.data.droplist || []);
-
                 setUserInfo({ username: response.data.username, email: response.data.email });
             } catch (err) {
                 console.error('Error fetching user lists:', err);
@@ -49,7 +45,6 @@ const Profilepage = () => {
                 headers: { 'x-auth-token': token }
             });
 
-            // Remove the anime from the state
             if (listType === 'watchlist') {
                 setWatchlist(prevList => prevList.filter(anime => anime._id !== animeId));
             } else if (listType === 'watchedlist') {
@@ -62,16 +57,12 @@ const Profilepage = () => {
         }
     };
 
-    const watchlistCount = watchlist.length;
-    const watchedlistCount = watchedlist.length;
-    const droppedlistCount = droppedlist.length;
-
     return (
         <div className="profile-page">
             <h2>Your Profile</h2>
             {!isAuthenticated ? (
                 <div className='usercomponent'>
-                    <h2>Login </h2>
+                    <h2>Login</h2>
                     <Login />
                     <h2>Register</h2>
                     <Register />
@@ -86,19 +77,19 @@ const Profilepage = () => {
                                     <h3>Username: {userInfo.username}</h3>
                                 </div>
                                 <div>
-                                    <h3>Watchlist Count: {watchlistCount}</h3>
+                                    <h3>Watchlist Count: {watchlist.length}</h3>
                                 </div>
                                 <div>
-                                    <h3>Watched List Count: {watchedlistCount}</h3>
+                                    <h3>Watched List Count: {watchedlist.length}</h3>
                                 </div>
                                 <div>
-                                    <h3>Dropped List Count: {droppedlistCount}</h3>
+                                    <h3>Dropped List Count: {droppedlist.length}</h3>
                                 </div>
                             </div>
                         </div>
                         <div>
                             <h3>Watchlist</h3>
-                            <ul className='similar-anime-list '>
+                            <ul className='similar-anime-list'>
                                 {watchlist.map((anime) => (
                                     <div key={anime._id}>
                                         <Link to={`/anime/${anime.mal_id}`}>

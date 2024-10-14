@@ -1,4 +1,3 @@
-// src/context/AuthContext.js
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -13,13 +12,16 @@ export const AuthProvider = ({ children }) => {
             const token = localStorage.getItem('token');
             if (token) {
                 try {
-                    await axios.get('http://localhost:5000/api/users/userlists', {
+                    await axios.get('/api/users/userlists', {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     setIsAuthenticated(true);
                 } catch (err) {
+                    console.error('Authentication check failed', err);
                     setIsAuthenticated(false);
                 }
+            } else {
+                setIsAuthenticated(false);
             }
             setLoading(false);
         };
