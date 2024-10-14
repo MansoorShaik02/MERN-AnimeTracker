@@ -186,6 +186,31 @@ const addToDroplist = async (req, res) => {
     }
 };
 
+const deletedatadb = async (req, res) => {
+    const { listType, id } = req.params;
+    const validLists = ['watchlist', 'watchedlist', 'droplist'];
+
+    if (!validLists.includes(listType)) {
+        return res.status(400).json({ msg: 'Invalid list type' });
+    }
+
+    try {
+        const user = await User.findById(req.user.id);
+
+        if (!user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
+        user[listType] = user[listType].filter(anime => anime.mal_id !== parseInt(id));
+
+        await user.save();
+        res.status(200).json(user[listType]);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+};
+
 const addToWatchedlist = async (req, res) => {
     const { mal_id, title, image_url } = req.body;
 
@@ -298,4 +323,4 @@ const resetpassword = async (req, res) => {
     }
 }
 
-module.exports = { registerUser, addToDroplist, loginUser, addToWatchlist, addToWatchedlist, resetpassword, getUserLists, addComment, getComments, verifyEmail, forgetpassword };
+module.exports = { registerUser, deletedatadb, addToDroplist, loginUser, addToWatchlist, addToWatchedlist, resetpassword, getUserLists, addComment, getComments, verifyEmail, forgetpassword };

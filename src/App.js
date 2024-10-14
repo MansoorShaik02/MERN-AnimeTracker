@@ -16,6 +16,7 @@ import { AuthProvider } from './context/AuthContext';
 import Profilepage from './pages/Profilepage';
 import Forgotpassword from './components/Forgotpassword';
 import Passwordreset from './components/Passwordreset';
+import News from './pages/News';
 function App() {
 
 
@@ -43,7 +44,7 @@ function App() {
             <Route path='/reset-password/:token' element={<Passwordreset />} ></Route>
 
             <Route path="/userlists" element={<UserLists />} />
-
+            <Route path="/news" element={<News />} />
 
           </Routes>
         </div>
