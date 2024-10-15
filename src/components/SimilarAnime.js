@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Animecard from './Animecard';
 import { Link } from 'react-router-dom';
-import "D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/SimilarAnime.css";
+import "../styles/SimilarAnime.css";
 // Import the CSS file
 
 const SimilarAnime = ({ animeId }) => {

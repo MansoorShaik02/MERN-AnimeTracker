@@ -6,7 +6,7 @@ import SimilarAnime from '../components/SimilarAnime';
 import CharacterList from '../components/CharacterList';
 import AnimeTrailer from '../components/AnimeTrailer';
 import { useAuth } from '../context/AuthContext';
-import 'D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/AnimeDetails.css' // Adjust the path if needed
+import '../styles/AnimeDetails.css' // Adjust the path if needed
 
 // Import the CSS file
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import "D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/Navbar.css"
+import "../styles/Navbar.css"
 import { NavLink } from 'react-router-dom';
 // Ensure the path is correct
 import { useAuth } from '../context/AuthContext'

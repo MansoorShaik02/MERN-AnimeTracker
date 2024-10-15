@@ -1,5 +1,5 @@
 import React from 'react';
-import "D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/Animecard.css";
+import "../styles/Animecard.css";
 
 const Animecard = (props) => {
     return (

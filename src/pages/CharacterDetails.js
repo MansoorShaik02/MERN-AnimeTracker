@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import 'D:/reactproectsreal/MERNAnimeDB/MERN-AnimeTracker/src/styles/CharacterDetails.css'; // Adjust the path if needed
+import '../styles/CharacterDetails.css'; // Adjust the path if needed
 
 
 const CharacterDetails = () => {
