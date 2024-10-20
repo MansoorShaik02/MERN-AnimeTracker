@@ -184,26 +184,7 @@ const AnimeDetails = () => {
 
             <AnimeTrailer />
             <CharacterList animeId={id} />
-            <div className="comments-section">
-                <h2>Comments</h2>
-                {comments.map(comment => (
-                    <div key={comment._id}>
-                        <p><strong>{comment.user.username || "[Deleted Profile]"}:</strong> {comment.text}</p>
-                        <p>{new Date(comment.createdAt).toLocaleString()}</p>
-                    </div>
-                ))}
-                {isAuthenticated && (
-                    <form onSubmit={handleAddComment}>
-                        <textarea
-                            value={commentText}
-                            onChange={(e) => setCommentText(e.target.value)}
-                            placeholder="Add a comment"
-                            required
-                        />
-                        <button type="submit">Submit</button>
-                    </form>
-                )}
-            </div> <SimilarAnime animeId={id} />
+            <SimilarAnime animeId={id} />
         </>
     );
 };
