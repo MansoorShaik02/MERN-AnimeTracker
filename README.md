@@ -9,6 +9,15 @@ Welcome to the site , displaying anime information ! This React application allo
 
 ![image](https://github.com/user-attachments/assets/fa84aeab-c95a-4e74-a88c-0a35c226663a)
 
+# Profile page : 
+
+Login Screen : 
+![image](https://github.com/user-attachments/assets/1aaeb910-434a-40f3-9177-f0af6d677761)
+
+User Profile : 
+
+![image](https://github.com/user-attachments/assets/a439bb81-7ad8-4ade-951b-f69de2323bb9)
+
 ## Features
 
 - Display top 10 popular anime with images, titles, and ratings.
