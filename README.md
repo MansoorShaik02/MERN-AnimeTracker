@@ -2,6 +2,8 @@
 
 # Anime World
 
+![image](https://github.com/user-attachments/assets/6e055d01-d486-4120-8301-506f84d2bee7)
+
 Welcome to the site , displaying anime information ! This React application allows users to explore top anime, currently airing anime, and trending anime. Users can search for anime, view details, and enjoy a seamless browsing experience.
 
 ## Features
