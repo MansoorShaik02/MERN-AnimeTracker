@@ -1,0 +1,55 @@
+/* CurrentlyAiring.css or AnimeCharacters.css */
+
+/* Container for the character list */
+.character-list {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  background-color: #1e1e1e;
+}
+
+/* Each character card */
+.character-card {
+  width: 150px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.character-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Character image */
+.character-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* Character name */
+.character-card h3 {
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .character-list {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .character-card {
+    width: 90%;
+  }
+}

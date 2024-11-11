@@ -1,0 +1,58 @@
+div {
+  font-family: Arial, sans-serif;
+}
+
+.genrebutton {
+  background-color: #ff6f61;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 0px;
+  margin-right: 3px;
+  display: inline-block;
+}
+
+button {
+  /* padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; */
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+h2 {
+  margin-top: 20px;
+  color: #333;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  margin: 10px 0;
+}
+
+.listitemul li a {
+  text-decoration: none;
+  color: #007bff;
+  font-size: 18px;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  padding: 5px;
+  display: block;
+  border-radius: 5px;
+}
+
+.listitemul li a:hover {
+  color: #fff;
+  background-color: #007bff;
+}

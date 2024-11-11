@@ -1,0 +1,21 @@
+/* CurrentlyAiring.css */
+
+.currently-airing {
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.currently-airing h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.anime-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  list-style-type: none;
+  padding: 0;
+}

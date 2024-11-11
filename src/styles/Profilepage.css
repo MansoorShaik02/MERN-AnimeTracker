@@ -1,0 +1,96 @@
+html,
+body,
+#app,
+#root,
+#app > div {
+  height: 100%;
+  width: 100%;
+  background-color: #1e1e1e;
+}
+
+h2 {
+  color: white;
+}
+.usercomponent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.similar-anime-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: #1e1e1e;
+  /* border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); */
+}
+
+.similar-anime-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0;
+  list-style-type: none;
+  width: 100%;
+}
+
+.similar-anime-item {
+  text-align: center;
+  /* Adjusts the width of each card */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 0 auto;
+  padding: 2em;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+input {
+  margin-bottom: 1em;
+  padding: 0.8em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  width: calc(100% - 1.6em); /* Adjust width to account for padding */
+}
+
+button {
+  padding: 0.8em;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+p {
+  font-size: 0.9em;
+  text-align: center;
+  margin-top: 0.5em;
+}
+
+p[style*="color: green"] {
+  color: #28a745;
+}
+
+p[style*="color: red"] {
+  color: #dc3545;
+}
+h3 {
+  color: white;
+}
