@@ -36,6 +36,13 @@
   max-width: 600px;
   margin: 0 auto;
 }
+
+.character-about {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: normal;
+}
 .character-about p {
   color: white;
 }

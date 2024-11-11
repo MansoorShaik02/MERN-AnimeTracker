@@ -90,18 +90,23 @@ const Profilepage = () => {
                         <div>
                             <h3>Watchlist</h3>
                             <ul className='similar-anime-list'>
-                                {watchlist.map((anime) => (
-                                    <div key={anime._id}>
-                                        <Link to={`/anime/${anime.mal_id}`}>
-                                            <Animecard
-                                                id={anime.mal_id}
-                                                title={anime.title}
-                                                src={anime.image_url}
-                                            />
-                                        </Link>
-                                        <button onClick={() => deleteAnime('watchlist', anime._id)}>Delete</button>
-                                    </div>
-                                ))}
+                                {watchlist.length > 0 ? (
+
+                                    watchlist.map((anime) => (
+                                        <div key={anime._id}>
+                                            <Link to={`/anime/${anime.mal_id}`}>
+                                                <Animecard
+                                                    id={anime.mal_id}
+                                                    title={anime.title}
+                                                    src={anime.image_url}
+                                                />
+                                            </Link>
+                                            <button onClick={() => deleteAnime('watchlist', anime._id)}>Delete</button>
+                                        </div>
+                                    ))
+
+                                ) : (<p>No anime in watchlist</p>)}
+
                             </ul>
                         </div>
                         <div>
