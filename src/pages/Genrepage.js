@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Animecard from '../components/Animecard';
 import { Link } from 'react-router-dom';
-import '../styles/CurrentlyAiring.css';
-import './HomePage.css';
-import '../pages/HomePage.css'
+
 import '../styles/Genrepage.css'
 
 const genres = [
@@ -105,18 +103,18 @@ function Genrepage() {
 
             <h1>Genre: {genre ? genre.name : 'Unknown'}</h1>
             <ul className="similar-anime-list">
-                <div className="genre-list">
-                    {animeList.slice(0, 10).map(anime => (
-                        <Link to={`/anime/${anime.mal_id}`} key={anime.mal_id} className="genre-item" >
-                            <Animecard
-                                id={anime.mal_id}
-                                title={anime.title}
-                                src={anime.images.jpg.image_url}
-                                description={anime.synopsis}
-                            />
-                        </Link>
-                    ))}
-                </div>
+
+                {animeList.slice(0, 20).map(anime => (
+                    <Link to={`/anime/${anime.mal_id}`} key={anime.mal_id} className="genre-item" >
+                        <Animecard
+                            id={anime.mal_id}
+                            title={anime.title}
+                            src={anime.images.jpg.image_url}
+                            description={anime.synopsis}
+                        />
+                    </Link>
+                ))}
+
             </ul>
         </div>
     );

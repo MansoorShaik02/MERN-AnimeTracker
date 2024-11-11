@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import '../styles/AnimeSearch.css'; // Adjust the path if needed
 import Animecard from '../components/Animecard';
 import { Link } from 'react-router-dom';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const AnimeSearch = () => {
     const [animeList, setAnimeList] = useState([]);
@@ -57,11 +57,22 @@ const AnimeSearch = () => {
         fetchAnime(true); // Reset the anime list on new search
     };
 
+    const loadMore = () => {
+        setPage((prevPage) => prevPage + 1);
+    };
+
     useEffect(() => {
         if (page > 1 && !loading) {
             fetchAnime();
         }
     }, [page]);
+
+    useEffect(() => {
+        // Optional: Fetch initial data if there's an initial search term
+        if (searchTerm) {
+            fetchAnime(true);
+        }
+    }, []);
 
     return (
         <div className="big-container">
@@ -78,32 +89,32 @@ const AnimeSearch = () => {
                 </form>
             </div>
 
-            {searchPerformed && (
-                <InfiniteScroll
-                    dataLength={animeList.length}
-                    next={() => setPage((prevPage) => prevPage + 1)}
-                    hasMore={hasMore}
-                    loader={<h4>Loading...</h4>}
-                    endMessage={<p>No more results</p>}
-                >
-                    <div className="similar-anime-container">
-                        <ul className="similar-anime-list">
-                            {animeList.map((anime) => (
-                                <li key={anime.mal_id} className="similar-anime-item">
-                                    <Link to={`/anime/${anime.mal_id}`} onClick={scrollToTop} className="similar-anime-link">
-                                        <Animecard
-                                            id={anime.mal_id}
-                                            title={anime.title}
-                                            src={anime.images.jpg.image_url}
-                                            description={anime.synopsis}
-                                        />
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </InfiniteScroll>
+            {loading ? <ClipLoader color="#36d7b7" size={50} /> : (
+
+                <div className="similar-anime-container">
+                    <ul className="similar-anime-list">
+                        {animeList.map((anime) => (
+                            <li key={anime.mal_id} className="similar-anime-item">
+                                <Link to={`/anime/${anime.mal_id}`} onClick={scrollToTop} className="similar-anime-link">
+                                    <Animecard
+                                        id={anime.mal_id}
+                                        title={anime.title}
+                                        src={anime.images.jpg.image_url}
+                                        description={anime.synopsis}
+                                    />
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             )}
+
+
+            {/* {hasMore && !loading && (
+                <div className="load-more-container">
+                    <button className="load-more-button" onClick={loadMore}>Load More</button>
+                </div>
+            )} */}
         </div>
     );
 };

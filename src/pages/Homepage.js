@@ -6,13 +6,16 @@ import Animecard from '../components/Animecard';
 import StaticGenres from '../helpers/StaticGenres';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const Homepage = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [logoutMessage, setLogoutMessage] = useState('');
     const [popularAnime, setPopularAnime] = useState([]);
     const [upcoming, setUpcoming] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loadingPopular, setLoadingPopular] = useState(false);
+    const [loadingUpcoming, setLoadingUpcoming] = useState(false);
+    const [loadingAiringToday, setLoadingAiringToday] = useState(false);
     const [airingToday, setAiringToday] = useState([]);
     const [popularCurrentIndex, setPopularCurrentIndex] = useState(0);
     const [upcomingCurrentIndex, setUpcomingCurrentIndex] = useState(0);
@@ -29,35 +32,43 @@ const Homepage = () => {
         }
 
         const fetchPopularAnime = async () => {
+            setLoadingPopular(true);
             try {
                 const response = await axios.get('https://api.jikan.moe/v4/top/anime');
                 setPopularAnime(response.data.data.slice(0, 35)); // Get top 35 popular animes
             } catch (error) {
                 console.error('Error fetching popular anime:', error);
+            } finally {
+                setLoadingPopular(false);
             }
         };
 
         fetchPopularAnime();
 
         const fetchAnimeReleasingToday = async () => {
+            setLoadingAiringToday(true);
             try {
                 const response = await axios.get('https://api.jikan.moe/v4/schedules');
                 const today = new Date().toLocaleString('en-us', { weekday: 'long' }).toLowerCase();
                 setAiringToday(response.data.data.slice(0, 35));
-                setLoading(false);
             } catch (err) {
                 console.error('Error fetching today airing anime:', err);
+            } finally {
+                setLoadingAiringToday(false);
             }
         };
 
         fetchAnimeReleasingToday();
 
         const fetchUpcomingAnime = async () => {
+            setLoadingUpcoming(true);
             try {
                 const response = await axios.get('https://api.jikan.moe/v4/seasons/upcoming');
                 setUpcoming(response.data.data.slice(0, 35)); // Get top 35 upcoming animes
             } catch (error) {
                 console.error('Error fetching upcoming anime:', error);
+            } finally {
+                setLoadingUpcoming(false);
             }
         };
 
@@ -133,21 +144,22 @@ const Homepage = () => {
                 <div className="similar-anime-container">
 
                     <h1>Anime Popular Right Now</h1>
-                    {loading && <p>Loading...</p>}
-                    <ul className="similar-anime-list">
-                        {popularAnime.slice(popularCurrentIndex, popularCurrentIndex + 7).map((anime) => (
-                            <li key={anime.mal_id} className="similar-anime-item">
-                                <Link to={`/anime/${anime.mal_id}`} onClick={scrollToTop} className="similar-anime-link">
-                                    <Animecard
-                                        id={anime.mal_id}
-                                        title={anime.title}
-                                        src={anime.images.jpg.image_url}
-                                        description={anime.synopsis}
-                                    />
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
+                    {loadingPopular ? <ClipLoader color="#36d7b7" size={50} /> : (
+                        <ul className="similar-anime-list">
+                            {popularAnime.slice(popularCurrentIndex, popularCurrentIndex + 7).map((anime) => (
+                                <li key={anime.mal_id} className="similar-anime-item">
+                                    <Link to={`/anime/${anime.mal_id}`} onClick={scrollToTop} className="similar-anime-link">
+                                        <Animecard
+                                            id={anime.mal_id}
+                                            title={anime.title}
+                                            src={anime.images.jpg.image_url}
+                                            description={anime.synopsis}
+                                        />
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                     <div className="navigation-buttons">
                         <button onClick={handlePrevPopular} disabled={popularCurrentIndex === 0}><ArrowBackIcon fontSize='small' /></button>
                         <button onClick={handleNextPopular} disabled={popularCurrentIndex >= popularAnime.length - 7}><ArrowForwardIcon fontSize='small' />
@@ -156,21 +168,22 @@ const Homepage = () => {
                 </div>
                 <div className="similar-anime-container">
                     <h1>Upcoming Anime</h1>
-                    {loading && <p>Loading...</p>}
-                    <ul className="similar-anime-list">
-                        {upcoming.slice(upcomingCurrentIndex, upcomingCurrentIndex + 7).map((anime) => (
-                            <li key={anime.mal_id} className="similar-anime-item">
-                                <Link to={`/anime/${anime.mal_id}`} onClick={scrollToTop} className="similar-anime-link">
-                                    <Animecard
-                                        id={anime.mal_id}
-                                        title={anime.title}
-                                        src={anime.images.jpg.image_url}
-                                        description={anime.synopsis}
-                                    />
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
+                    {loadingUpcoming ? <ClipLoader color="#36d7b7" size={50} /> : (
+                        <ul className="similar-anime-list">
+                            {upcoming.slice(upcomingCurrentIndex, upcomingCurrentIndex + 7).map((anime) => (
+                                <li key={anime.mal_id} className="similar-anime-item">
+                                    <Link to={`/anime/${anime.mal_id}`} onClick={scrollToTop} className="similar-anime-link">
+                                        <Animecard
+                                            id={anime.mal_id}
+                                            title={anime.title}
+                                            src={anime.images.jpg.image_url}
+                                            description={anime.synopsis}
+                                        />
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                     <div className="navigation-buttons">
                         <button onClick={handlePrevUpcoming} disabled={upcomingCurrentIndex === 0}><ArrowBackIcon /></button>
                         <button onClick={handleNextUpcoming} disabled={upcomingCurrentIndex >= upcoming.length - 7}><ArrowForwardIcon /></button>
@@ -178,21 +191,22 @@ const Homepage = () => {
                 </div>
                 <div className="similar-anime-container">
                     <h1>Anime Airing Today</h1>
-                    {loading && <p>Loading...</p>}
-                    <ul className="similar-anime-list">
-                        {airingToday.slice(airingTodayCurrentIndex, airingTodayCurrentIndex + 7).map((anime) => (
-                            <li key={anime.mal_id} className="similar-anime-item">
-                                <Link to={`/anime/${anime.mal_id}`} onClick={scrollToTop} className="similar-anime-link">
-                                    <Animecard
-                                        id={anime.mal_id}
-                                        title={anime.title}
-                                        src={anime.images.jpg.image_url}
-                                        description={anime.synopsis}
-                                    />
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
+                    {loadingAiringToday ? <ClipLoader color="#36d7b7" size={50} /> : (
+                        <ul className="similar-anime-list">
+                            {airingToday.slice(airingTodayCurrentIndex, airingTodayCurrentIndex + 7).map((anime) => (
+                                <li key={anime.mal_id} className="similar-anime-item">
+                                    <Link to={`/anime/${anime.mal_id}`} onClick={scrollToTop} className="similar-anime-link">
+                                        <Animecard
+                                            id={anime.mal_id}
+                                            title={anime.title}
+                                            src={anime.images.jpg.image_url}
+                                            description={anime.synopsis}
+                                        />
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                     <div className="navigation-buttons">
                         <button onClick={handlePrevAiringToday} disabled={airingTodayCurrentIndex === 0}><ArrowBackIcon /></button>
                         <button onClick={handleNextAiringToday} disabled={airingTodayCurrentIndex >= airingToday.length - 7}><ArrowForwardIcon /></button>
@@ -200,23 +214,18 @@ const Homepage = () => {
                 </div>
                 <section className="featured-sections">
                     <div className="featured-section">
-                        <h2>Currently Airing Anime</h2>
-                        <Link to="/currentlyAiring" className="section-link">Explore Now</Link>
+                        <h1>Top Rated</h1>
+                        <p>Check out the top-rated anime series and movies as voted by the community.</p>
                     </div>
                     <div className="featured-section">
-                        <h2>Trending Anime</h2>
-                        <Link to="/trending" className="section-link">See What's Hot</Link>
+                        <h1>Genres</h1>
+                        <p>Explore anime by genre, from action and adventure to romance and horror.</p>
+                    </div>
+                    <div className="featured-section">
+                        <h1>My Anime List</h1>
+                        <p>Create and manage your own list of favorite anime, and keep track of what you've watched.</p>
                     </div>
                 </section>
-                <footer className="footer">
-                    <p>© 2024 Anime World. All rights reserved.</p>
-                    <div className="footer-links">
-                        <Link to="/">Home</Link>
-                        <Link to="/search">Search</Link>
-                        <Link to="/trending">Trending</Link>
-                        <Link to="/currentlyAiring">Currently Airing</Link>
-                    </div>
-                </footer>
             </div>
         </div>
     );

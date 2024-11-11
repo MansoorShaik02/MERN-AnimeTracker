@@ -5,6 +5,7 @@
   /* Fixed width */
   height: 200px; /* Fixed height */
   overflow: hidden;
+  width: 141.95px;
   margin: 10px; /* Optional: Add some margin for spacing between cards */
 }
 

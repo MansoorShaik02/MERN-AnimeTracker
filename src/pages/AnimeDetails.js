@@ -6,6 +6,8 @@ import SimilarAnime from '../components/SimilarAnime';
 import CharacterList from '../components/CharacterList';
 import AnimeTrailer from '../components/AnimeTrailer';
 import { useAuth } from '../context/AuthContext';
+import ClipLoader from 'react-spinners/ClipLoader';
+
 import '../styles/AnimeDetails.css' // Adjust the path if needed
 
 // Import the CSS file
@@ -17,14 +19,18 @@ const AnimeDetails = () => {
     const [message, setMessage] = useState('');
     const [comments, setComments] = useState([]);
     const [commentText, setCommentText] = useState('');
+    const [loadingCurrent, setLoadingCurrent] = useState(false)
 
     useEffect(() => {
         const fetchAnimeDetails = async () => {
+            setLoadingCurrent(true)
             try {
                 const response = await axios.get(`https://api.jikan.moe/v4/anime/${id}`);
                 setAnimeDetails(response.data.data);
             } catch (error) {
                 console.error('Error fetching anime details:', error);
+            } finally {
+                setLoadingCurrent(false)
             }
         };
 
@@ -168,23 +174,32 @@ const AnimeDetails = () => {
 
     return (
         <>
+
             <div className="anime-details">
-                <h1>{animeDetails.title}</h1>
-                <img src={animeDetails.images.jpg.image_url} alt={animeDetails.title} />
-                <p><strong>Rating:</strong> {animeDetails.score}</p>
-                <p><strong>Episodes:</strong> {animeDetails.episodes}</p>
-                <p><strong>Status:</strong> {animeDetails.status}</p>
-                <p><strong>Synopsis:</strong> {animeDetails.synopsis}</p>
+                {loadingCurrent ? (
+                    <ClipLoader color="#36d7b7" size={50} />
+                ) : (
+                    <>
+                        <h1>{animeDetails.title}</h1>
+                        <img src={animeDetails.images.jpg.image_url} alt={animeDetails.title} />
+                        <p><strong>Rating:</strong> {animeDetails.score}</p>
+                        <p><strong>Episodes:</strong> {animeDetails.episodes}</p>
+                        <p><strong>Status:</strong> {animeDetails.status}</p>
+                        <p><strong>Synopsis:</strong> {animeDetails.synopsis}</p>
 
-                <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
-                <button onClick={handleAddToWatchedlist}>Add to Watched List</button>
-                <button onClick={handleAddToDroplist}>Add to Drop List</button>
-                {message && <p>{message}</p>}
-            </div>
+                        <button onClick={handleAddToWatchlist}>Add to Watchlist</button>
+                        <button onClick={handleAddToWatchedlist}>Add to Watched List</button>
+                        <button onClick={handleAddToDroplist}>Add to Drop List</button>
+                        {message && <p>{message}</p>}
 
-            <AnimeTrailer />
-            <CharacterList animeId={id} />
-            <SimilarAnime animeId={id} />
+                        <AnimeTrailer />
+                        <CharacterList animeId={id} />
+                        <SimilarAnime animeId={id} />
+                    </>
+                )}
+
+            </div >
+
         </>
     );
 };
