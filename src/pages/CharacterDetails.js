@@ -33,6 +33,7 @@ const CharacterDetails = () => {
             <h1>{character.name}</h1>
             <img src={character.images.jpg.image_url} alt={character.name} />
             <div className="character-about">
+                
                 {aboutSections.map((section, index) => (
                     <p key={index}>{section}</p>
                 ))}
